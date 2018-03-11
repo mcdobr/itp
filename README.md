@@ -1,1 +1,3 @@
-# Internet Technologies Project
+# Platformă de recenzii filme
+
+Mereu citește wiki-ul!!!

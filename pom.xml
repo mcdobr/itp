@@ -8,10 +8,12 @@
   <name>GreasyPopcorn</name>
   <description>Movie reviwing platform</description>
   <modules>
-  	<module>GreasyPopcornCore</module>
   	
-    <module>GreasyPopcornWebServices</module>
-    <module>GreasyPopcornWebServer</module>
+    <module>GreasyPopcornCore</module>
+    
     <module>GreasyPopcornWebServicesServer</module>
+    
+    
+    <module>GreasyPopcornWebServer</module>
   </modules>
 </project>

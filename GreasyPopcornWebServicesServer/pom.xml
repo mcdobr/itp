@@ -53,7 +53,13 @@
 		<groupId>org.glassfish.jersey.media</groupId>
 		<artifactId>jersey-media-json-jackson</artifactId>
 	</dependency>
-    
+
+	<!-- Core functionality -->
+	<dependency>
+		<groupId>xyz.bcdi.greasypopcorn</groupId>
+		<artifactId>GreasyPopcornCore</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
   </dependencies>
   
   <build>

@@ -1,4 +1,4 @@
-package xyz.bcdi.greasypopcorn.GreasyPopcornWebServicesServer;
+package xyz.bcdi.greasypopcorn.webservices;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

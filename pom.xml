@@ -7,13 +7,10 @@
   <packaging>pom</packaging>
   <name>GreasyPopcorn</name>
   <description>Movie reviwing platform</description>
+  
   <modules>
-  	
     <module>GreasyPopcornCore</module>
-    
     <module>GreasyPopcornWebServicesServer</module>
-    
-    
     <module>GreasyPopcornWebServer</module>
   </modules>
 </project>

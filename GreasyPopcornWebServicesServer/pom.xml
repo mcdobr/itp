@@ -11,6 +11,7 @@
   <artifactId>GreasyPopcornWebServicesServer</artifactId>
   <packaging>war</packaging>
   <name>GreasyPopcornWebServicesServer</name>
+  
   <properties>
     <jersey.version>2.26</jersey.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -60,7 +61,20 @@
 		<artifactId>GreasyPopcornCore</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
+  
+  	<!-- MariaDB Connector -->
+  	<!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+	<dependency>
+	    <groupId>org.mariadb.jdbc</groupId>
+	    <artifactId>mariadb-java-client</artifactId>
+	    <version>2.2.3</version>
+	</dependency>
+  
+  
   </dependencies>
+  
+  
+  
   
   <build>
     <finalName>GreasyPopcornWebServicesServer</finalName>

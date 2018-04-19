@@ -1,6 +1,10 @@
 package xyz.bcdi.greasypopcorn.dbaccess;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,25 +15,53 @@ import xyz.bcdi.greasypopcorn.core.Movie;
 
 public class MovieDAO {
 	private static final MovieDAO instance = new MovieDAO();
-
+	private static final String URL = "jdbc:mariadb://localhost:3306/GreasyPopcorn";
+	private static final String USERNAME = "root";
+	private static final String PASSWORD = "root";
+	
 	public static MovieDAO getInstance() {
 		return instance;
 	}
 	
-	private List<Movie> movies;
 	private Connection conn;
+	private Statement statement;
 	
 	private MovieDAO() {
-		this.movies = Collections.synchronizedList(new ArrayList<Movie>());
+		//this.movies = Collections.synchronizedList(new ArrayList<Movie>());
 		
-		movies.add(new Movie("Deer Hunter"));
-		movies.add(new Movie("Godfather"));
-		/* in functia asta ar trebui sa apara conectarea la baza de date.
-		 * Probabil trebuie sa ai un obiect de tip connection ca membru al clasei
-		 *  */
+		// Establish connection to db
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			
+			// To see if db connection is valid
+			// System.out.println(conn.isValid(0));
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public List<Movie> getMovies() {
+		
+
+		List<Movie> movies = new ArrayList<>();
+		
+		try {
+			statement = conn.createStatement();
+			String getAllTitles = "SELECT title, imdbId " +
+								"FROM movies;";
+			
+			ResultSet rs = statement.executeQuery(getAllTitles);
+			
+			while (rs.next()) {
+				movies.add(new Movie(rs.getString("imdbId"),
+						rs.getString("title")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		return movies;
 	}
 	
@@ -42,6 +74,27 @@ public class MovieDAO {
 	 */
 	public List<Movie> getMoviesByName() {
 		return null;
+	}
+	
+	public Movie createMovie(String title) {
+		Movie movie = new Movie(title);
+		
+		try {
+			statement = conn.createStatement();
+
+			// Db needs to be modified... for now it adds movie with the name given
+			String insertSql="INSERT INTO movies VALUES ('" 
+							+ movie.getName() + "', '" + movie.getMovieID() + "', " + "STR_TO_DATE('1929-02-01' , '%Y-%m-%d'), " +
+							"'USA', 1200, 2, 3);";
+			//System.out.println(insertSql);
+			
+			statement.execute(insertSql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		// Daca nu a fost efectuata cu succes, returneaza null
+		return movie;
 	}
 	
 }

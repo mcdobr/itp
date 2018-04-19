@@ -1,57 +1,74 @@
 package xyz.bcdi.greasypopcorn;
 
 import java.io.IOException;
+<<<<<<< HEAD
 import java.io.PrintWriter;
 import java.util.Enumeration;
 
 import javax.servlet.RequestDispatcher;
+=======
+import java.util.List;
+
+>>>>>>> a6955d747fb1218c25098fc3562488322f1a359b
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import xyz.bcdi.greasypopcorn.core.Movie;
 
 /**
  * Servlet implementation class Ceva
  */
 public class Ceva extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+     
+	private Client client;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public Ceva() {
         super();
-        // TODO Auto-generated constructor stub
+        client = ClientBuilder.newClient();
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("application/json;charset=UTF-8");
-		 try (PrintWriter out = response.getWriter()) {
-
-		        out.println("[{\"name\": \"Nadal, Rafael (ESP)\", \"email\": \"nadalrafael@gmail.com\", \"rank\": \"1\"},"
-		                        + "{\"name\": \"Djokovic, Novak (SRB)\", \"email\": \"djokovicnovak@gmail.com\", \"rank\": \"2\"},"
-		                        + "{\"name\": \"Federer, Roger (SUI)\", \"email\": \"federerroger@gmail.com\", \"rank\": \"3\"},"
-		                        + "{\"name\": \"Wawrinka, Stan (SUI)\", \"email\": \"wawrinkastan@gmail.com\", \"rank\": \"4\"},"
-		                        + "{\"name\": \"Ferrer, David (ESP)\", \"email\": \"ferrerdavid@gmail.com\", \"rank\": \"5\"}]");
-		        }
-		 catch (Exception e) {
-	         e.printStackTrace();
-	      }
-        
-       /* RequestDispatcher rd= request.getRequestDispatcher("index.jsp");
-        rd.forward(request, response);*/
+		// TODO Auto-generated method stub
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		// Create web target and specific path on web target
+		WebTarget webTarget = client.target("http://localhost:8080/GreasyPopcornWebServicesServer/webapi");
+		WebTarget moviesTarget = webTarget.path("movies");
+						
+		// Request
+		Invocation.Builder invocationBuilder = moviesTarget.request(MediaType.APPLICATION_JSON);
+				
+		List<Movie> wssResponse = invocationBuilder.get(new GenericType<List<Movie>>() {});
+		//sysout(invocationBuilder.buildGet().toString();
+		for (Movie m : wssResponse) {
+			//System.out.println(m.getName());
+			response.getWriter().println(m.getMovieID() + " " + m.getName());
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		//doGet(request, response);
+		
 	}
 
 }

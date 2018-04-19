@@ -6,14 +6,22 @@ import java.util.UUID;
 
 public class Movie {
 	
-	private final String movieID;
-	private final String name;
-	private final List<String> genres;
+	private String movieID;
+	private String name;
+	private List<String> genres;
 
-	public Movie(String name) {
-		this.movieID = UUID.randomUUID().toString();
+	public Movie() {
+		
+	}
+	
+	public Movie(String movieID, String name) {
+		this.movieID = movieID;
 		this.name = name;
 		this.genres = new ArrayList<String>();
+	}
+	
+	public Movie(String name) {
+		this(UUID.randomUUID().toString(), name);
 		this.genres.add("comedy");
 	}
 	

@@ -78,7 +78,7 @@
         <script language="javascript" type="text/javascript">
           angular.module('ATP_PLAYERS', [])
            .controller('atpController', function ($scope, $http) {
-              $http.get('Ceva').then(function (data, status, headers, config) {
+              $http.get('MovieServlet').then(function (data, status, headers, config) {
                 $scope.atp = data;
                 console.log(data);
              });

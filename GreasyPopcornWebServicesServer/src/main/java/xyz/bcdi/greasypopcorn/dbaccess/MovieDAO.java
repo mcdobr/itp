@@ -2,7 +2,9 @@ package xyz.bcdi.greasypopcorn.dbaccess;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,18 +23,16 @@ public class MovieDAO {
 		return instance;
 	}
 	
-	private List<Movie> movies;
 	private Connection conn;
+	private Statement statement;
 	
 	private MovieDAO() {
-		this.movies = Collections.synchronizedList(new ArrayList<Movie>());
+		//this.movies = Collections.synchronizedList(new ArrayList<Movie>());
 		
-		movies.add(new Movie("Deer Hunter"));
-		movies.add(new Movie("Godfather"));
-		/* in functia asta ar trebui sa apara conectarea la baza de date.
-		 * Probabil trebuie sa ai un obiect de tip connection ca membru al clasei
-		 *  */
+		/*movies.add(new Movie("Deer Hunter"));
+		movies.add(new Movie("Godfather"));*/
 		
+		// Establish connection to db
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -44,6 +44,24 @@ public class MovieDAO {
 	}
 	
 	public List<Movie> getMovies() {
+		
+
+		List<Movie> movies = new ArrayList<>();
+		
+		try {
+			statement = conn.createStatement();
+			String getAllTitles = "SELECT title, imdbId " +
+								"FROM movies";
+			
+			ResultSet rs = statement.executeQuery(getAllTitles);
+			
+			while (rs.next()) {
+				movies.add(new Movie(rs.getString("title")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		return movies;
 	}
 	

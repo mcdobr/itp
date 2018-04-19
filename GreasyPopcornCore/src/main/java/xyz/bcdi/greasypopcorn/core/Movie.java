@@ -6,10 +6,14 @@ import java.util.UUID;
 
 public class Movie {
 	
-	private final String movieID;
-	private final String name;
-	private final List<String> genres;
+	private String movieID;
+	private String name;
+	private List<String> genres;
 
+	public Movie() {
+		
+	}
+	
 	public Movie(String movieID, String name) {
 		this.movieID = movieID;
 		this.name = name;

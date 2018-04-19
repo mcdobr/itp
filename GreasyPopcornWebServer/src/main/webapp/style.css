@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+html, body{
+	height: 100%;
+	background-color: #f2faff;
+}
+
+span{
+	float: right;
+	margin-right: 25px;
+}
+h1{
+	margin-top:25px;
+	text-align:center;
+}
+.form-container{
+	margin-top: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+button{
+	margin-right: 50px;
+}
+
+input{
+	height: 34px;
+	font-size: 15px;
+	margin-right: 10px;
+}

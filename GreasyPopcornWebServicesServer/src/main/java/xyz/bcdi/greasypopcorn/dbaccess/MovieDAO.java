@@ -29,14 +29,13 @@ public class MovieDAO {
 	private MovieDAO() {
 		//this.movies = Collections.synchronizedList(new ArrayList<Movie>());
 		
-		/*movies.add(new Movie("Deer Hunter"));
-		movies.add(new Movie("Godfather"));*/
-		
 		// Establish connection to db
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-			System.out.println(conn.isValid(0));
+			
+			// To see if db connection is valid
+			// System.out.println(conn.isValid(0));
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -56,7 +55,8 @@ public class MovieDAO {
 			ResultSet rs = statement.executeQuery(getAllTitles);
 			
 			while (rs.next()) {
-				movies.add(new Movie(rs.getString("title")));
+				movies.add(new Movie(rs.getString("imdbId"),
+						rs.getString("title")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

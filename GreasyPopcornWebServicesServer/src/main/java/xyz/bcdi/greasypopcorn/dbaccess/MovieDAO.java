@@ -50,7 +50,7 @@ public class MovieDAO {
 		try {
 			statement = conn.createStatement();
 			String getAllTitles = "SELECT title, imdbId " +
-								"FROM movies";
+								"FROM movies;";
 			
 			ResultSet rs = statement.executeQuery(getAllTitles);
 			
@@ -74,6 +74,27 @@ public class MovieDAO {
 	 */
 	public List<Movie> getMoviesByName() {
 		return null;
+	}
+	
+	public Movie createMovie(String title) {
+		Movie movie = new Movie(title);
+		
+		try {
+			statement = conn.createStatement();
+
+			// Db needs to be modified... for now it adds movie with the name given
+			String insertSql="INSERT INTO movies VALUES ('" 
+							+ movie.getName() + "', '" + movie.getMovieID() + "', " + "STR_TO_DATE('1929-02-01' , '%Y-%m-%d'), " +
+							"'USA', 1200, 2, 3);";
+			//System.out.println(insertSql);
+			
+			statement.execute(insertSql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		// Daca nu a fost efectuata cu succes, returneaza null
+		return movie;
 	}
 	
 }

@@ -10,10 +10,14 @@ public class Movie {
 	private final String name;
 	private final List<String> genres;
 
-	public Movie(String name) {
-		this.movieID = UUID.randomUUID().toString();
+	public Movie(String movieID, String name) {
+		this.movieID = movieID;
 		this.name = name;
 		this.genres = new ArrayList<String>();
+	}
+	
+	public Movie(String name) {
+		this(UUID.randomUUID().toString(), name);
 		this.genres.add("comedy");
 	}
 	

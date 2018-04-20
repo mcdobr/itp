@@ -5,14 +5,14 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
   <servlet>
-  	<servlet-name>Ceva</servlet-name>
-  	<display-name>Ceva</display-name>
+  	<servlet-name>MovieServlet</servlet-name>
+  	<display-name>MovieServlet</display-name>
   	<description></description>
-  	<servlet-class>xyz.bcdi.greasypopcorn.Ceva</servlet-class>
+  	<servlet-class>xyz.bcdi.greasypopcorn.MovieServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>Ceva</servlet-name>
-  	<url-pattern>/Ceva</url-pattern>
+  	<servlet-name>MovieServlet</servlet-name>
+  	<url-pattern>/MovieServlet</url-pattern>
   </servlet-mapping>
   
   

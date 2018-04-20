@@ -20,67 +20,35 @@
 			         Date dNow = new Date( );
 			         SimpleDateFormat ft = 
 			         new SimpleDateFormat ("hh:mm");
-			         out.print(ft.format(dNow));
+			         out.print("Ora: "+ft.format(dNow));
 			 %></span>
 		<h1>Greasy Popcorn</h1>
 	</header>
         <div ng-controller="GPController">
 			<div class = "form-container">       
 	            <form>
-	            	<input type="text" ng-model="title" value="dddd" placeholder="Titlu film">
+	            	<input type="text" ng-model="title" placeholder="Titlu film">
 	            </form>
 	            
 	            <button ng-click="search()" name="search" class="btn btn-primary">Cauta</button>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rank</th> 
-                        <th>Name</th> 
-                        <th>E-mail</th> 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="item in itp">
-                        <td>{{ item.rank }}</td>             
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.email }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <main class="table-div">
+	            <table ng-show="movies" class="table-bordered ">
+	                <thead>
+	                    <tr>
+	                        <th>MovieID</th> 
+	                        <th>Title</th> 
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                    <tr ng-repeat="movie in movies">
+	                        <td>{{ movie.movieID }}</td>             
+	                        <td>{{ movie.name }}</td>
+	                    </tr>
+	                </tbody>
+	            </table>
+            </main>
         </div>     
       	</body>
         <script src = "script.js"> </script>
 </html>
-
- <!-- 
- <body ng-app="ATP_PLAYERS">   
-        <div ng-controller="atpController">
-            <h5>Loading ATP players from a Servlet</h5>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rank</th> 
-                        <th>Name</th> 
-                        <th>E-mail</th> 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="item in atp.data">
-                        <td>{{ item.rank }}</td>             
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.email }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>     
-      
-        <script language="javascript" type="text/javascript">
-          angular.module('ATP_PLAYERS', [])
-           .controller('atpController', function ($scope, $http) {
-              $http.get('Ceva').then(function (data, status, headers, config) {
-                $scope.atp = data;
-                console.log(data);
-             });
-         });
-        </script> -->

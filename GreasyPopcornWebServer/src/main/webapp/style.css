@@ -1,8 +1,7 @@
 @charset "UTF-8";
-
 html, body{
 	height: 100%;
-	background-color: #f2faff;
+	background-color: #f7f7f7;
 }
 
 span{
@@ -21,11 +20,34 @@ h1{
 }
 
 button{
-	margin-right: 50px;
+	margin-right: 80px;
 }
 
 input{
 	height: 34px;
 	font-size: 15px;
 	margin-right: 10px;
+}
+
+.table-div{
+	display:flex;
+	justify-content: center;
+}
+
+table{
+	margin-top: 30px;
+}
+
+th, td{
+	text-align: center;
+}
+
+th{
+	font-size: 18px;
+	padding: 10px 25px;
+}
+
+td{
+	font-size: 16px;
+	padding: 7px 15px;
 }

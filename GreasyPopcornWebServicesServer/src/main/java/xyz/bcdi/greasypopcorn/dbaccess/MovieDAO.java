@@ -27,9 +27,6 @@ public class MovieDAO {
 	private Statement statement;
 	
 	private MovieDAO() {
-		//this.movies = Collections.synchronizedList(new ArrayList<Movie>());
-		
-		// Establish connection to db
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -42,6 +39,9 @@ public class MovieDAO {
 		
 	}
 	
+	/**
+	 * @return A collection with all the movies
+	 */
 	public List<Movie> getMovies() {
 		List<Movie> movies = new ArrayList<>();
 		
@@ -53,8 +53,7 @@ public class MovieDAO {
 			ResultSet rs = statement.executeQuery(getAllTitles);
 			
 			while (rs.next()) {
-				movies.add(new Movie(rs.getString("movieID"),
-						rs.getString("name")));
+				movies.add(new Movie(rs.getString("movieID"), rs.getString("name")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -93,24 +92,24 @@ public class MovieDAO {
 		return null;
 	}
 	
-	public Movie createMovie(String title) {
-		Movie movie = new Movie(title);
+	/**
+	 * @param name The name of the movie
+	 * @return The created movie
+	 */
+	public Movie createMovie(String name) {
+		Movie movie = new Movie(name);
 		
 		try {
 			statement = conn.createStatement();
 
 			// Db needs to be modified... for now it adds movie with the name given
-			String insertSql="INSERT INTO movies VALUES ('" 
-							+ movie.getName() + "', '" + movie.getMovieID() + "', " + "STR_TO_DATE('1929-02-01' , '%Y-%m-%d'), " +
-							"'USA', 1200, 2, 3);";
-			//System.out.println(insertSql);
-			
-			statement.execute(insertSql);
+			String insertFormat = "INSERT INTO movies VALUES ('%s, %s, STR_TO_DATE('1929-02-01' , '%Y-%m-%d'), 'USA', 1200, 2, 3)"; 
+			statement.execute(String.format(insertFormat, movie.getName(), movie.getMovieID()));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		// Daca nu a fost efectuata cu succes, returneaza null
+		// TODO: Daca nu a fost efectuata cu succes, returneaza null
 		return movie;
 	}
 	

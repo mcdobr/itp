@@ -31,6 +31,14 @@ public class MovieResource {
 		return MovieDAO.getInstance().getMovies();
 	}
 	
+	@GET
+	@Path("{movieID}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Movie getMovieByID(@PathParam("movieID") String movieID) {
+		return MovieDAO.getInstance().getMovieByID(movieID);
+	}
+	
+	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Produces(MediaType.APPLICATION_JSON)

@@ -43,20 +43,18 @@ public class MovieDAO {
 	}
 	
 	public List<Movie> getMovies() {
-		
-
 		List<Movie> movies = new ArrayList<>();
 		
 		try {
 			statement = conn.createStatement();
-			String getAllTitles = "SELECT title, imdbId " +
+			String getAllTitles = "SELECT name, movieID " +
 								"FROM movies;";
 			
 			ResultSet rs = statement.executeQuery(getAllTitles);
 			
 			while (rs.next()) {
-				movies.add(new Movie(rs.getString("imdbId"),
-						rs.getString("title")));
+				movies.add(new Movie(rs.getString("movieID"),
+						rs.getString("name")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -65,8 +63,27 @@ public class MovieDAO {
 		return movies;
 	}
 	
-	public Movie getMovieByID() {
-		return null;
+	public Movie getMovieByID(String movieID) {
+		
+		Movie result = null;
+		
+		try {
+			statement = conn.createStatement();
+			String getMovieFormatStr = 	"SELECT movieID, name " +
+										"FROM movies " + 
+										"WHERE movieID = '%s';";
+			
+			String sql = getMovieFormatStr.format(getMovieFormatStr, movieID);
+			
+			ResultSet rs = statement.executeQuery(sql);
+			if (rs.next()) {
+				result = new Movie(rs.getString("movieID"), rs.getString("name"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 	/*

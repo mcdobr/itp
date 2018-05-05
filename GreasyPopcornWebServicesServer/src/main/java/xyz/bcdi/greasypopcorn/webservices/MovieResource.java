@@ -24,14 +24,15 @@ public class MovieResource {
 		return MovieDAO.getInstance().getMovieByID(movieID);
 	}
 	
-	//TODO
 	@GET
+	@Path("query")
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<Movie> getMoviesByName(@QueryParam("name") String name) {
-		return null;
+		if (name == null)
+			throw new IllegalArgumentException();
+		return MovieDAO.getInstance().getMoviesByName(name);
 	}
 	
-	/*
-	//TODO
 	@PUT
 	public Response replaceMovies() {
 		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "POST").build();
@@ -39,23 +40,23 @@ public class MovieResource {
 	
 	//TODO
 	@PUT
-	public void replaceMovie() {
-		
-	}*/
+	@Path("{movieID}")
+	public Response replaceMovie() {
+		return null;
+	}
 	
-	/*
-	//TODO
 	@PATCH
-	public void updateMovies() {
-		
+	public Response updateMovies() {
+		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "POST").build();
 	}
 	
 	//TODO
 	@PATCH
-	public void updateMovie() {
-		
+	@Path("{movieID}")
+	public Response updateMovie() {
+		return null;
 	}
-	*/
+	
 	//TODO
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
@@ -74,8 +75,8 @@ public class MovieResource {
 	}
 	
 	@DELETE
-	public void deleteMovies() {
-		Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "POST").build();
+	public Response deleteMovies() {
+		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "POST").build();
 	}
 	
 	//TODO

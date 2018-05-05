@@ -1,13 +1,8 @@
 package xyz.bcdi.greasypopcorn.dbaccess;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.*;
+import java.sql.*;
+import java.util.*;
 
 import xyz.bcdi.greasypopcorn.core.Movie;
 
@@ -18,6 +13,8 @@ public class MovieDAO {
 	private static final String URL = "jdbc:mariadb://localhost:3306/GreasyPopcorn";
 	private static final String USERNAME = "root";
 	private static final String PASSWORD = "root";
+	private static final String sqlStatementsFile = "sqlStatements.properties";
+	
 	
 	public static MovieDAO getInstance() {
 		return instance;
@@ -25,15 +22,23 @@ public class MovieDAO {
 	
 	private Connection conn;
 	private Statement statement;
+	private Properties sqlStatements;
 	
 	private MovieDAO() {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			
+			String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+			String sqlStatementsPath = rootPath + sqlStatementsFile;
+			
+			
+			sqlStatements = new Properties();
+			sqlStatements.load(new FileInputStream(sqlStatementsPath));
+			
 			// To see if db connection is valid
 			// System.out.println(conn.isValid(0));
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException | ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -47,10 +52,7 @@ public class MovieDAO {
 		
 		try {
 			statement = conn.createStatement();
-			String getAllTitles = "SELECT name, movieID " +
-								"FROM movies;";
-			
-			ResultSet rs = statement.executeQuery(getAllTitles);
+			ResultSet rs = statement.executeQuery(sqlStatements.getProperty("getMovies"));
 			
 			while (rs.next()) {
 				movies.add(new Movie(rs.getString("movieID"), rs.getString("name")));
@@ -68,11 +70,7 @@ public class MovieDAO {
 		
 		try {
 			statement = conn.createStatement();
-			String getMovieFormatStr = 	"SELECT movieID, name " +
-										"FROM movies " + 
-										"WHERE movieID = '%s';";
-			
-			String sql = getMovieFormatStr.format(getMovieFormatStr, movieID);
+			String sql = String.format(sqlStatements.getProperty("getMovieByID"), movieID);
 			
 			ResultSet rs = statement.executeQuery(sql);
 			if (rs.next()) {
@@ -88,8 +86,22 @@ public class MovieDAO {
 	/*
 	 * Pot fi mai multe filme cu acelasi nume. de aceea fol o lista
 	 */
-	public List<Movie> getMoviesByName() {
-		return null;
+	public List<Movie> getMoviesByName(String name) {
+		List<Movie> movies = new ArrayList<>();
+		
+		try {
+			statement = conn.createStatement();
+			String sql = String.format(sqlStatements.getProperty("getMoviesByName"), name);
+			
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				movies.add(new Movie(rs.getString("movieID"), rs.getString("name")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return movies;
 	}
 	
 	/**

@@ -1,31 +1,35 @@
 package xyz.bcdi.greasypopcorn.core;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Movie {
+	private static final int MISSING_ID = -1;
 	
-	private String movieID;
+	private int movieID;
 	private String name;
-	private List<String> genres;
+	private Date releaseDate;
+	private String genre;
 
 	public Movie() {
-		
+		movieID = MISSING_ID;
 	}
 	
-	public Movie(String movieID, String name) {
+	public Movie(int movieID, String name) {
 		this.movieID = movieID;
 		this.name = name;
-		this.genres = new ArrayList<String>();
+		this.setReleaseDate(null);
+		this.genre = new String();
 	}
 	
 	public Movie(String name) {
-		this(UUID.randomUUID().toString(), name);
-		this.genres.add("comedy");
+		this(MISSING_ID, name);
+	}
+
+	public boolean isMissingID() {
+		return (movieID == MISSING_ID);
 	}
 	
-	public String getMovieID() {
+	public int getMovieID() {
 		return movieID;
 	}
 	
@@ -33,8 +37,19 @@ public class Movie {
 		return name;
 	}
 
-	public List<String> getGenres() {
-		return genres;
+	public Date getReleaseDate() {
+		return releaseDate;
+	}
+	
+	public void setReleaseDate(Date releaseDate) {
+		this.releaseDate = releaseDate;
 	}
 
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setMovieID(int movieID) {
+		this.movieID = movieID;
+	}
 }

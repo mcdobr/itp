@@ -14,15 +14,15 @@ public class Movie {
 		movieID = MISSING_ID;
 	}
 	
-	public Movie(int movieID, String name) {
+	public Movie(int movieID, String name, String genre) {
 		this.movieID = movieID;
 		this.name = name;
 		this.setReleaseDate(null);
-		this.genre = new String();
+		this.genre = genre;
 	}
 	
 	public Movie(String name) {
-		this(MISSING_ID, name);
+		this(MISSING_ID, name, new String());
 	}
 
 	public boolean isMissingID() {

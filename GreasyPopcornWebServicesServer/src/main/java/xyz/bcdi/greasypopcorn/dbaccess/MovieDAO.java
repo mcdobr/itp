@@ -32,7 +32,7 @@ public class MovieDAO {
 	};
 	
 	private Connection conn;
-	private Statement statement;
+	private PreparedStatement statement;
 	private Properties sqlStatements;
 	
 	private MovieDAO() {
@@ -58,11 +58,11 @@ public class MovieDAO {
 		List<Movie> movies = new ArrayList<>();
 		
 		try {
-			statement = conn.createStatement();
-			ResultSet rs = statement.executeQuery(sqlStatements.getProperty("getMovies"));
+			statement = conn.prepareStatement(sqlStatements.getProperty("getMovies"));
+			ResultSet rs = statement.executeQuery();
 			
 			while (rs.next()) {
-				movies.add(new Movie(rs.getInt("movieID"), rs.getString("name")));
+				movies.add(new Movie(rs.getInt("movieID"), rs.getString("name"), rs.getString("genre")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -76,12 +76,12 @@ public class MovieDAO {
 		Movie result = null;
 		
 		try {
-			statement = conn.createStatement();
-			String sql = String.format(sqlStatements.getProperty("getMovieByID"), movieID);
+			statement = conn.prepareStatement(sqlStatements.getProperty("getMovieByID"));
+			statement.setInt(1, movieID);
 			
-			ResultSet rs = statement.executeQuery(sql);
+			ResultSet rs = statement.executeQuery();
 			if (rs.next()) {
-				result = new Movie(rs.getInt("movieID"), rs.getString("name"));
+				result = new Movie(rs.getInt("movieID"), rs.getString("name"), rs.getString("genre"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -94,12 +94,11 @@ public class MovieDAO {
 		List<Movie> movies = new ArrayList<>();
 		
 		try {
-			statement = conn.createStatement();
-			String sql = String.format(sqlStatements.getProperty("getMoviesByName"), name);
-			
-			ResultSet rs = statement.executeQuery(sql);
+			statement = conn.prepareStatement(sqlStatements.getProperty("getMoviesByName"));
+			statement.setString(1, "%" + name + "%");
+			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				movies.add(new Movie(rs.getInt("movieID"), rs.getString("name")));
+				movies.add(new Movie(rs.getInt("movieID"), rs.getString("name"), rs.getString("genre")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -118,22 +117,28 @@ public class MovieDAO {
 		
 		Movie movieToBeReplaced = getMovieByID(m.getMovieID());
 		try {
-			statement = conn.createStatement();
 			if (movieToBeReplaced == null) {
-				String sql = String.format(sqlStatements.getProperty("createMovie"),
-						m.getMovieID(), m.getName(), "default", "default");
+				statement = conn.prepareStatement(sqlStatements.getProperty("createMovie"));
+				statement.setInt(1, m.getMovieID());
+				statement.setString(2, m.getName());
+				statement.setString(3, m.getGenre());
+				statement.executeUpdate();
 				
-				statement.executeUpdate(sql);
 				opEffect = SqlOperationEffect.CREATED;
 			} else {
-				String sql = String.format("UPDATE movies SET name = '%s', releaseDate = %s, genre = '%s' WHERE movieID = %d;", 
+				statement = conn.prepareStatement(sqlStatements.getProperty("replaceMovie"));
+				statement.setString(1, m.getName());
+				statement.setString(2, m.getGenre());
+				statement.setInt(3, m.getMovieID());
+				statement.executeUpdate();
+				
+				opEffect = SqlOperationEffect.REPLACED;
+				/*
+				String sql = String.format(", 
 						m.getName(),
 						(m.getReleaseDate() == null) ? "default" : m.getReleaseDate(),
 						(m.getGenre() == null) ? "default" : m.getGenre(),
-						m.getMovieID());
-				
-				statement.executeUpdate(sql);
-				opEffect = SqlOperationEffect.REPLACED;
+						m.getMovieID());*/
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -144,17 +149,18 @@ public class MovieDAO {
 	}
 	
 	/**
-	 * @param name The name of the movie
-	 * @return The created movie
+	 * @param name The name of the movie.
+	 * @return The created movie.
 	 */
 	public Movie createMovie(Movie m) {
 		Movie result = null;
 		try {
-			statement = conn.createStatement();
-			String sql = String.format(sqlStatements.getProperty("postMovie"),
-					m.getName(), "default", "vxzc");
-			statement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+			statement = conn.prepareStatement(sqlStatements.getProperty("postMovie"),
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, m.getName());
+			statement.executeUpdate();
 			
+			// Get last inserted id
 			ResultSet rs = statement.getGeneratedKeys();
 			int lastID = -1;
 			if (rs.next())
@@ -175,9 +181,9 @@ public class MovieDAO {
 		
 		int rowsAffected = 0;
 		try {
-			statement = conn.createStatement();
-			String sql = String.format(sqlStatements.getProperty("deleteMovie"), movieID);
-			rowsAffected = statement.executeUpdate(sql);
+			statement = conn.prepareStatement(sqlStatements.getProperty("deleteMovie"));
+			statement.setInt(1, movieID);
+			rowsAffected = statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

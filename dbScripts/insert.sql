@@ -74,3 +74,12 @@
      STR_TO_DATE('1939-12-28' , '%Y-%m-%d'),
      'Romance'
   );
+
+
+
+INSERT INTO users VALUES('mircea', 'Mircea Dobreanu', 'abc', true);
+INSERT INTO users VALUES('paul', 'Paul Brinza', 'def', false);
+
+INSERT INTO persons VALUES(default, 'brad pitt');
+INSERT INTO persons VALUES(default, 'angelina jolie');
+

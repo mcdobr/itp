@@ -2,7 +2,7 @@ CREATE database GreasyPopcorn;
 USE GreasyPopcorn;
 
 CREATE TABLE movies(
-	movieID INT NOT NULL AUTO_INCREMENT,
+	movieID INT AUTO_INCREMENT,
 	name VARCHAR(50) NOT NULL,
 	releaseDate DATE,
 	genre VARCHAR(50),
@@ -17,29 +17,34 @@ CREATE TABLE users(
 	CONSTRAINT user_pk PRIMARY KEY(username)
 );
 	
-CREATE TABLE reviews(
-	username VARCHAR(50) NOT NULL,
-	movieID INT NOT NULL,
-	label VARCHAR(1000),
-	content VARCHAR(2000),
-	rating INT NOT NULL,
-	CONSTRAINT review_username_fk FOREIGN KEY (username) REFERENCES users(username),
-	CONSTRAINT review_movieID_fk FOREIGN KEY (movieID) REFERENCES movies(movieID),
-	CONSTRAINT review_pk PRIMARY KEY(username, movieID)
-);
-	
 CREATE TABLE persons(
-	personID INT NOT NULL AUTO_INCREMENT,
+	personID INT AUTO_INCREMENT,
 	name VARCHAR(50) NOT NULL,
-	birthdate DATE,
 	CONSTRAINT person_pk PRIMARY KEY(personID)
 );
-	
+
+CREATE TABLE reviews(
+	reviewID INT AUTO_INCREMENT,
+	username VARCHAR(50) NOT NULL,
+	movieID INT NOT NULL,
+	rating INT NOT NULL,
+	label VARCHAR(1000),
+	content VARCHAR(2000),
+	reviewTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CONSTRAINT review_username_fk FOREIGN KEY (username) REFERENCES users(username),
+	CONSTRAINT review_movieID_fk FOREIGN KEY (movieID) REFERENCES movies(movieID),
+	CONSTRAINT review_pair_uk UNIQUE KEY (username, movieID),
+	CONSTRAINT review_pk PRIMARY KEY(reviewID)
+);
+
 CREATE TABLE roles(
+	roleID INT AUTO_INCREMENT,
 	movieID INT NOT NULL,
 	personID INT,
 	name VARCHAR(50) NOT NULL,
 	CONSTRAINT role_movieID_fk FOREIGN KEY (movieID) REFERENCES movies(movieID),
 	CONSTRAINT role_personID_fk FOREIGN KEY (personID) REFERENCES persons(personID),
-	CONSTRAINT role_pk PRIMARY KEY(movieID, personID)
+	CONSTRAINT role_uk UNIQUE KEY(movieID, personID),
+	CONSTRAINT role_pk PRIMARY KEY(roleID)
 );
+

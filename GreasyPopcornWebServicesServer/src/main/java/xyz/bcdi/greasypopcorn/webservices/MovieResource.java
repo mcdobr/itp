@@ -1,14 +1,14 @@
 package xyz.bcdi.greasypopcorn.webservices;
 
-import java.net.URI;
+import java.net.*;
 import java.util.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.*;
 
+import xyz.bcdi.greasypopcorn.core.DatabaseAccessObject.SqlOperationEffect;
 import xyz.bcdi.greasypopcorn.core.Movie;
 import xyz.bcdi.greasypopcorn.dbaccess.MovieDAO;
-import xyz.bcdi.greasypopcorn.dbaccess.MovieDAO.SqlOperationEffect;
 
 @Path("movies")
 public class MovieResource {
@@ -43,7 +43,6 @@ public class MovieResource {
 		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "POST").build();
 	}
 	
-	//TODO
 	@PUT
 	@Path("{movieID}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -74,11 +73,10 @@ public class MovieResource {
 	@PATCH
 	@Path("{movieID}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response patchMovie() {
+	public Response patchMovie(@PathParam("movieID") int movieID, MultivaluedMap<String, String> map) {
 		return null;
 	}
 
-	//TODO
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

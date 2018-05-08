@@ -4,6 +4,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 
+import xyz.bcdi.greasypopcorn.core.DatabaseAccessObject;
 import xyz.bcdi.greasypopcorn.core.Movie;
 
 /**
@@ -11,44 +12,15 @@ import xyz.bcdi.greasypopcorn.core.Movie;
  * @author mircea
  *
  */
-public class MovieDAO {
-	private static final MovieDAO instance = new MovieDAO();
-	private static final String URL = "jdbc:mariadb://localhost:3306/GreasyPopcorn";
-	private static final String USERNAME = "root";
-	private static final String PASSWORD = "root";
-	private static final String statementsSqlFile = "sqlStatements.properties";
+public class MovieDAO extends DatabaseAccessObject {
 	
+	private static final MovieDAO instance = new MovieDAO();
 	public static MovieDAO getInstance() {
 		return instance;
 	}
 	
-	public enum SqlOperationEffect
-	{
-		CREATED,
-		REPLACED,
-		UPDATED,
-		DELETED,
-		FAILED
-	};
-	
-	private Connection conn;
-	private PreparedStatement statement;
-	private Properties sqlStatements;
-	
 	private MovieDAO() {
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-			
-			String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-			String propsSqlPath = rootPath + statementsSqlFile;
-			
-			sqlStatements = new Properties();
-			sqlStatements.load(new FileInputStream(propsSqlPath));
-		} catch (SQLException | ClassNotFoundException | IOException e) {
-			e.printStackTrace();
-		}
-		
+		super();
 	}
 	
 	/**
@@ -58,7 +30,7 @@ public class MovieDAO {
 		List<Movie> movies = new ArrayList<>();
 		
 		try {
-			statement = conn.prepareStatement(sqlStatements.getProperty("getMovies"));
+			statement = conn.prepareStatement(sql.getProperty("getMovies"));
 			ResultSet rs = statement.executeQuery();
 			
 			while (rs.next()) {
@@ -76,7 +48,7 @@ public class MovieDAO {
 		Movie result = null;
 		
 		try {
-			statement = conn.prepareStatement(sqlStatements.getProperty("getMovieByID"));
+			statement = conn.prepareStatement(sql.getProperty("getMovieByID"));
 			statement.setInt(1, movieID);
 			
 			ResultSet rs = statement.executeQuery();
@@ -94,7 +66,7 @@ public class MovieDAO {
 		List<Movie> movies = new ArrayList<>();
 		
 		try {
-			statement = conn.prepareStatement(sqlStatements.getProperty("getMoviesByName"));
+			statement = conn.prepareStatement(sql.getProperty("getMoviesByName"));
 			statement.setString(1, "%" + name + "%");
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
@@ -118,7 +90,7 @@ public class MovieDAO {
 		Movie movieToBeReplaced = getMovieByID(m.getMovieID());
 		try {
 			if (movieToBeReplaced == null) {
-				statement = conn.prepareStatement(sqlStatements.getProperty("createMovie"));
+				statement = conn.prepareStatement(sql.getProperty("createMovie"));
 				statement.setInt(1, m.getMovieID());
 				statement.setString(2, m.getName());
 				statement.setString(3, m.getGenre());
@@ -126,7 +98,7 @@ public class MovieDAO {
 				
 				opEffect = SqlOperationEffect.CREATED;
 			} else {
-				statement = conn.prepareStatement(sqlStatements.getProperty("replaceMovie"));
+				statement = conn.prepareStatement(sql.getProperty("replaceMovie"));
 				statement.setString(1, m.getName());
 				statement.setString(2, m.getGenre());
 				statement.setInt(3, m.getMovieID());
@@ -155,7 +127,7 @@ public class MovieDAO {
 	public Movie createMovie(Movie m) {
 		Movie result = null;
 		try {
-			statement = conn.prepareStatement(sqlStatements.getProperty("postMovie"),
+			statement = conn.prepareStatement(sql.getProperty("postMovie"),
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, m.getName());
 			statement.executeUpdate();
@@ -181,7 +153,7 @@ public class MovieDAO {
 		
 		int rowsAffected = 0;
 		try {
-			statement = conn.prepareStatement(sqlStatements.getProperty("deleteMovie"));
+			statement = conn.prepareStatement(sql.getProperty("deleteMovie"));
 			statement.setInt(1, movieID);
 			rowsAffected = statement.executeUpdate();
 		} catch (SQLException e) {

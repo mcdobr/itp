@@ -17,14 +17,15 @@ public class ReviewResource {
 	public Review getReviewByID(@PathParam("reviewID") int reviewID) {
 		return ReviewDAO.getInstance().getReviewByID(reviewID);
 	}
-	
+
 	@GET
 	@Path("query")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Review> getReviewByField(@QueryParam("movie") Integer movieID, @QueryParam("username") String username) {
+	public List<Review> getReviewByField(@QueryParam("movieID") Integer movieID,
+			@QueryParam("username") String username) {
 		if (movieID == null && username == null)
 			throw new IllegalArgumentException();
-		
+
 		if (username != null)
 			return ReviewDAO.getInstance().getReviewsByUser(username);
 		else

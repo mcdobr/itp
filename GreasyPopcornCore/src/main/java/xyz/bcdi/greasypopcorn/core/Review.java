@@ -2,6 +2,8 @@ package xyz.bcdi.greasypopcorn.core;
 
 import java.time.*;
 
+import com.fasterxml.jackson.annotation.*;
+
 public class Review {
 	private final Integer reviewID;
 	private final String username;
@@ -9,8 +11,14 @@ public class Review {
 	private final String label, content;
 	private final LocalDateTime reviewTime;
 	
-	private Review(Integer reviewID, String username, Integer movieID, Integer rating, String label, String content,
-			LocalDateTime reviewTime) {
+	@JsonCreator
+	public Review(@JsonProperty("reviewID") Integer reviewID,
+			@JsonProperty("username") String username,
+			@JsonProperty("movieID") Integer movieID,
+			@JsonProperty("rating") Integer rating,
+			@JsonProperty("label") String label,
+			@JsonProperty("content") String content,
+			@JsonProperty("reviewTime") LocalDateTime reviewTime) {
 		super();
 		this.reviewID = reviewID;
 		this.username = username;

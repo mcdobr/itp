@@ -1,24 +1,35 @@
 package xyz.bcdi.greasypopcorn.core;
 
-public class Person {
-	private int personID;
-	private String name;
+import com.fasterxml.jackson.annotation.*;
 
-	public Person(int personID, String name) {
+public class Person {
+	private final Integer personID;
+	private final String name;
+
+	@JsonCreator
+	public Person(@JsonProperty("personID") int personID,
+			@JsonProperty("name") String name) {
 		this.personID = personID;
 		this.name = name;
 	}
 	
-	public int getPersonID() {
-		return personID;
-	}
-	public void setPersonID(int personID) {
-		this.personID = personID;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
+	public static class PersonBuilder {
+		private Integer personID;
+		private String name;
+		
+		public PersonBuilder() {}
+		
+		private PersonBuilder(Person person) {
+			this.personID = person.personID;
+			this.name = person.name;
+		}
+		
+		public Person build() {
+			return new Person(personID, name);
+		}
+		
+		public static PersonBuilder copyOf(Person person) {
+			return new PersonBuilder(person);
+		}
 	}
 }

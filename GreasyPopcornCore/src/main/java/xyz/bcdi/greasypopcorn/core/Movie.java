@@ -1,7 +1,8 @@
 package xyz.bcdi.greasypopcorn.core;
 
 import java.time.*;
-import java.util.*;
+
+import com.fasterxml.jackson.annotation.*;
 
 public class Movie {
 	private final Integer movieID;
@@ -9,7 +10,11 @@ public class Movie {
 	private final LocalDate releaseDate;
 	private final String genre;
 	
-	public Movie(int movieID, String name, LocalDate releaseDate, String genre) {
+	@JsonCreator
+	public Movie(@JsonProperty("movieID") int movieID,
+			@JsonProperty("name") String name,
+			@JsonProperty("releaseDate") LocalDate releaseDate,
+			@JsonProperty("genre") String genre) {
 		this.movieID = movieID;
 		this.name = name;
 		this.releaseDate = releaseDate;

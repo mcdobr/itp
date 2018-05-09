@@ -4,21 +4,20 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.bcdi.greasypopcorn.core.DatabaseAccessObject;
 import xyz.bcdi.greasypopcorn.core.Review;
 import xyz.bcdi.greasypopcorn.core.Review.ReviewBuilder;
 
-public class ReviewDAO extends DatabaseAccessObject{
+public class ReviewDAO extends DatabaseAccessObject {
 	private static final ReviewDAO instance = new ReviewDAO();
+
 	public static ReviewDAO getInstance() {
 		return instance;
 	}
-	
+
 	private ReviewDAO() {
 		super();
 	}
-	
-	
+
 	public Review getReviewByID(int reviewID) {
 		Review review = null;
 		try {
@@ -29,13 +28,13 @@ public class ReviewDAO extends DatabaseAccessObject{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return review;
 	}
-	
+
 	public List<Review> getReviewsByUser(String username) {
 		List<Review> reviews = new ArrayList<>();
-		
+
 		try {
 			statement = conn.prepareStatement(sql.getProperty("getReviewsByUser"));
 			statement.setString(1, username);
@@ -44,23 +43,37 @@ public class ReviewDAO extends DatabaseAccessObject{
 				Review review = copyOf(rs).build();
 				reviews.add(review);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return reviews;
 	}
 
 	public List<Review> getReviewsByMovie(int movieID) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Review> reviews = new ArrayList<>();
+
+		try {
+			statement = conn.prepareStatement(sql.getProperty("getReviewsByMovieID"));
+			statement.setInt(1, movieID);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				Review review = copyOf(rs).build();
+				reviews.add(review);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return reviews;
 	}
 	
 	private static ReviewBuilder copyOf(ResultSet rs) throws SQLException {
 		ResultSetMetaData rsmd = rs.getMetaData();
 		ReviewBuilder rb = new ReviewBuilder();
-		
+
 		final int columns = rsmd.getColumnCount();
 		for (int col = 1; col <= columns; ++col) {
 			switch (rsmd.getColumnName(col).toLowerCase()) {
@@ -90,5 +103,5 @@ public class ReviewDAO extends DatabaseAccessObject{
 		}
 		return rb;
 	}
-	
+
 }

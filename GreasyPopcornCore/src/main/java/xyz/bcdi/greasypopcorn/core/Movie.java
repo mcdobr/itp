@@ -1,55 +1,78 @@
 package xyz.bcdi.greasypopcorn.core;
 
+import java.time.*;
 import java.util.*;
 
 public class Movie {
-	private static final int MISSING_ID = -1;
+	private final Integer movieID;
+	private final String name;
+	private final LocalDate releaseDate;
+	private final String genre;
 	
-	private int movieID;
-	private String name;
-	private Date releaseDate;
-	private String genre;
-
-	public Movie() {
-		movieID = MISSING_ID;
-	}
-	
-	public Movie(int movieID, String name, String genre) {
+	public Movie(int movieID, String name, LocalDate releaseDate, String genre) {
 		this.movieID = movieID;
 		this.name = name;
-		this.setReleaseDate(null);
+		this.releaseDate = releaseDate;
 		this.genre = genre;
 	}
 	
-	public Movie(String name) {
-		this(MISSING_ID, name, new String());
-	}
-
-	public boolean isMissingID() {
-		return (movieID == MISSING_ID);
-	}
-	
-	public int getMovieID() {
+	public Integer getMovieID() {
 		return movieID;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
 
-	public Date getReleaseDate() {
+	public LocalDate getReleaseDate() {
 		return releaseDate;
-	}
-	
-	public void setReleaseDate(Date releaseDate) {
-		this.releaseDate = releaseDate;
 	}
 
 	public String getGenre() {
 		return genre;
 	}
+	
+	public static class MovieBuilder {
+		private Integer movieID;
+		private String name;
+		private LocalDate releaseDate;
+		private String genre;
+		
+		public MovieBuilder() {}
+		
+		private MovieBuilder(Movie movie) {
+			this.movieID = movie.movieID;
+			this.name = movie.name;
+			this.releaseDate = movie.releaseDate;
+			this.genre = movie.genre;
+		}
+		
+		public Movie build() {
+			return new Movie(movieID, name, releaseDate, genre);
+		}
+		
+		public MovieBuilder withMovieID(int movieID) {
+			this.movieID = movieID;
+			return this;
+		}
 
-	public void setMovieID(int movieID) {
-		this.movieID = movieID;
+		public MovieBuilder withName(String name) {
+			this.name = name;
+			return this;
+		}
+
+		public MovieBuilder withReleaseDate(LocalDate releaseDate) {
+			this.releaseDate = releaseDate;
+			return this;
+		}
+
+		public MovieBuilder withGenre(String genre) {
+			this.genre = genre;
+			return this;
+		}		
+
+		public static MovieBuilder copyOf(Movie movie) {
+			return new MovieBuilder(movie);
+		}
 	}
 }

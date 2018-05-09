@@ -5,6 +5,7 @@ import java.util.*;
 
 import xyz.bcdi.greasypopcorn.core.DatabaseAccessObject;
 import xyz.bcdi.greasypopcorn.core.Movie;
+import xyz.bcdi.greasypopcorn.core.Movie.MovieBuilder;
 
 /**
  * 
@@ -33,7 +34,8 @@ public class MovieDAO extends DatabaseAccessObject {
 			ResultSet rs = statement.executeQuery();
 			
 			while (rs.next()) {
-				movies.add(new Movie(rs.getInt("movieID"), rs.getString("name"), rs.getString("genre")));
+				Movie movie = copyOf(rs).build();
+				movies.add(movie);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -52,7 +54,7 @@ public class MovieDAO extends DatabaseAccessObject {
 			
 			ResultSet rs = statement.executeQuery();
 			if (rs.next()) {
-				result = new Movie(rs.getInt("movieID"), rs.getString("name"), rs.getString("genre"));
+				result = copyOf(rs).build();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -69,7 +71,8 @@ public class MovieDAO extends DatabaseAccessObject {
 			statement.setString(1, "%" + name + "%");
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				movies.add(new Movie(rs.getInt("movieID"), rs.getString("name"), rs.getString("genre")));
+				Movie movie = copyOf(rs).build();
+				movies.add(movie);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -160,5 +163,30 @@ public class MovieDAO extends DatabaseAccessObject {
 		}
 		
 		return (rowsAffected == 1);
+	}
+	
+	
+	private static MovieBuilder copyOf(ResultSet rs) throws SQLException {
+		ResultSetMetaData rsmd = rs.getMetaData();
+		MovieBuilder mb = new MovieBuilder();
+		
+		final int columns = rsmd.getColumnCount();
+		for (int col = 1; col <= columns; ++col) {
+			switch (rsmd.getColumnName(col).toLowerCase()) {
+			case "movieid":
+				mb.withMovieID(rs.getInt("movieID"));
+				break;
+			case "name":
+				mb.withName(rs.getString("name"));
+				break;
+			case "releasedate":
+				mb.withReleaseDate(rs.getDate("releaseDate").toLocalDate());
+				break;
+			case "genre":
+				mb.withGenre(rs.getString("genre"));
+				break;
+			}
+		}
+		return mb;
 	}
 }

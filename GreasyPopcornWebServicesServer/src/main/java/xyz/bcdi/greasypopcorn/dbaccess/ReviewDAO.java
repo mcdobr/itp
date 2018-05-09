@@ -59,7 +59,6 @@ public class ReviewDAO extends DatabaseAccessObject{
 	
 	private static ReviewBuilder copyOf(ResultSet rs) throws SQLException {
 		ResultSetMetaData rsmd = rs.getMetaData();
-		
 		ReviewBuilder rb = new ReviewBuilder();
 		
 		final int columns = rsmd.getColumnCount();

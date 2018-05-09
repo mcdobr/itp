@@ -7,6 +7,7 @@ import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.*;
 
 import xyz.bcdi.greasypopcorn.core.DatabaseAccessObject.SqlOperationEffect;
+import xyz.bcdi.greasypopcorn.core.Movie.MovieBuilder;
 import xyz.bcdi.greasypopcorn.core.Movie;
 import xyz.bcdi.greasypopcorn.dbaccess.MovieDAO;
 
@@ -48,8 +49,8 @@ public class MovieResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response replaceOrCreateMovie(Movie m, @PathParam("movieID") int movieID) {
 		
-		if (m.isMissingID())
-			m.setMovieID(movieID);
+		if (m.getMovieID() == null)
+			m = MovieBuilder.copyOf(m).withMovieID(movieID).build();
 		
 		SqlOperationEffect opEffect = MovieDAO.getInstance().replaceOrCreateMovie(m);
 		

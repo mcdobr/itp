@@ -1,6 +1,5 @@
 package xyz.bcdi.greasypopcorn.dbaccess;
 
-import java.io.*;
 import java.sql.*;
 import java.util.*;
 

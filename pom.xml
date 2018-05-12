@@ -12,5 +12,6 @@
     <module>GreasyPopcornCore</module>
     <module>GreasyPopcornWebServicesServer</module>
     <module>GreasyPopcornWebServer</module>
+    <module>GreasyPopcornDesktop</module>
   </modules>
 </project>

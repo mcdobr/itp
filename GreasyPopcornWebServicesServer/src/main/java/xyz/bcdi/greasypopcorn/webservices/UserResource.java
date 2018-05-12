@@ -13,6 +13,12 @@ import xyz.bcdi.greasypopcorn.dbaccess.UserDAO;
 public class UserResource {
 
 	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<User> getUsers() {
+		return UserDAO.getInstance().getUsers();
+	}
+	
+	@GET
 	@Path("{username}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public User getUser(@PathParam("username") String username) {

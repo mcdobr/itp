@@ -4,17 +4,17 @@ import com.fasterxml.jackson.annotation.*;
 
 public class Role {
 	private final Integer roleID, movieID, personID;
-	private final String name;
+	private final String roleName;
 
 	@JsonCreator
-	public Role(@JsonProperty("roleID") Integer roleID,
+	public Role(@JsonProperty("roleID") int roleID,
 			@JsonProperty("movieID") Integer movieID,
 			@JsonProperty("personID") Integer personID,
-			@JsonProperty("name") String name) {
+			@JsonProperty("roleName") String roleName) {
 		this.roleID = roleID;
 		this.movieID = movieID;
 		this.personID = personID;
-		this.name = name;
+		this.roleName = roleName;
 	}
 	
 	public Integer getRoleID() {
@@ -29,13 +29,13 @@ public class Role {
 		return personID;
 	}
 
-	public String getName() {
-		return name;
+	public String getRoleName() {
+		return roleName;
 	}
 
 	public static class RoleBuilder {
 		private Integer roleID, movieID, personID;
-		private String name;
+		private String roleName;
 		
 		public RoleBuilder() {}
 		
@@ -43,11 +43,11 @@ public class Role {
 			this.roleID = role.roleID;
 			this.movieID = role.movieID;
 			this.personID = role.personID;
-			this.name = role.name;
+			this.roleName = role.roleName;
 		}
 		
 		public Role build() {
-			return new Role(roleID, movieID, personID, name);
+			return new Role(roleID, movieID, personID, roleName);
 		}
 		
 		public RoleBuilder withRoleID(Integer roleID) {
@@ -65,8 +65,8 @@ public class Role {
 			return this;
 		}
 		
-		public RoleBuilder withName(String name) {
-			this.name = name;
+		public RoleBuilder withRoleName(String roleName) {
+			this.roleName = roleName;
 			return this;
 		}
 		

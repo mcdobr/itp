@@ -1,6 +1,9 @@
 package xyz.bcdi.greasypopcorn.webservices;
 
 import java.util.*;
+
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
@@ -15,6 +18,7 @@ public class PersonResource extends AbstractResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public List<Person> getPersons() {
 		return PersonDAO.getInstance().getPersons();
 	}
@@ -22,11 +26,13 @@ public class PersonResource extends AbstractResource {
 	@GET
 	@Path("{personID}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public Person getPersonByID(@PathParam("personID") int personID) {
 		return PersonDAO.getInstance().getPersonByID(personID);
 	}
 	
 	@PUT
+	@RolesAllowed("Moderator")
 	public Response replaceOrCreatePersons() {
 		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "POST").build();
 	}
@@ -34,6 +40,7 @@ public class PersonResource extends AbstractResource {
 	@PUT
 	@Path("{personID}")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed("Moderator")
 	public Response replaceOrCreatePerson(Person p, @PathParam("personID") int personID) {
 		if (p.getPersonID() == 0)
 			p = PersonBuilder.copyOf(p).withPersonID(personID).build();
@@ -51,6 +58,7 @@ public class PersonResource extends AbstractResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("Moderator")
 	public Response createPerson(Person p, @Context UriInfo uriInfo) {
 		Person result = PersonDAO.getInstance().createPerson(p);
 		String id = (result != null) ? result.getPersonID().toString() : null; 
@@ -59,11 +67,13 @@ public class PersonResource extends AbstractResource {
 
 	@POST
 	@Path("{personID}")
+	@RolesAllowed("Moderator")
 	public Response createPerson(@PathParam("personID") int personID) {
 		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "PUT", "DELETE").build();
 	}
 	
 	@DELETE
+	@RolesAllowed("Moderator")
 	public Response deletePersons() {
 		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "POST").build();
 	}
@@ -71,6 +81,7 @@ public class PersonResource extends AbstractResource {
 	@DELETE
 	@Path("{personID}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("Moderator")
 	public Response deletePerson(@PathParam("personID") int personID) {
 		boolean wasDeleted = PersonDAO.getInstance().deletePerson(personID);
 		return buildResponseForDeleteEntity(wasDeleted);

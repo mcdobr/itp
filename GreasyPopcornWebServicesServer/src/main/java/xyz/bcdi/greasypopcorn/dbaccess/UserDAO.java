@@ -72,8 +72,8 @@ public class UserDAO extends AbstractDatabaseAccessObject {
 			case "password":
 				ub.withPassword(rs.getString("password"));
 				break;
-			case "ispromoter":
-				ub.withIsPromoter(rs.getBoolean("isPromoter"));
+			case "ismoderator":
+				ub.withIsModerator(rs.getBoolean("isModerator"));
 				break;
 			}
 		}

@@ -2,6 +2,8 @@ package xyz.bcdi.greasypopcorn.webservices;
 
 import java.util.*;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.*;
@@ -15,6 +17,7 @@ import xyz.bcdi.greasypopcorn.dbaccess.ReviewDAO;
 public class ReviewResource extends AbstractResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public List<Review> getMovies() {
 		return ReviewDAO.getInstance().getReviews();
 	}	
@@ -22,6 +25,7 @@ public class ReviewResource extends AbstractResource {
 	@GET
 	@Path("{reviewID}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public Review getReviewByID(@PathParam("reviewID") int reviewID) {
 		return ReviewDAO.getInstance().getReviewByID(reviewID);
 	}
@@ -29,6 +33,7 @@ public class ReviewResource extends AbstractResource {
 	@GET
 	@Path("query")
 	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public List<Review> getReviewByField(@QueryParam("movieID") Integer movieID,
 			@QueryParam("username") String username) {
 		if (movieID == null && username == null)
@@ -41,12 +46,14 @@ public class ReviewResource extends AbstractResource {
 	}
 	
 	@PUT
+	@RolesAllowed("{Moderator, RegisteredUser}")
 	public Response replaceOrCreateReviews() {
 		return Response.status(Status.METHOD_NOT_ALLOWED).allow("POST").build();
 	}
 	
 	@PUT
 	@Path("{reviewID}")
+	@RolesAllowed("{Moderator, RegisteredUser}")
 	public Response replaceOrCreateReview(Review r, @PathParam("reviewID") int reviewID) {
 		if (r.getReviewID() == 0)
 			r = ReviewBuilder.copyOf(r).withReviewID(reviewID).build();
@@ -64,6 +71,7 @@ public class ReviewResource extends AbstractResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("{Moderator, RegisteredUser}")
 	public Response createReview(Review r, @Context UriInfo uriInfo) {
 		Review result = ReviewDAO.getInstance().createReview(r);
 		String id = (result != null) ? result.getReviewID().toString() : null; 
@@ -73,11 +81,13 @@ public class ReviewResource extends AbstractResource {
 	@POST
 	@Path("{movieID}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("{Moderator, RegisteredUser}")
 	public Response createMovie(@PathParam("movieID") int movieID) {
 		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "PUT", "DELETE").build();
 	}
 	
 	@DELETE
+	@RolesAllowed("Moderator")
 	public Response deleteMovies() {
 		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "POST").build();
 	}
@@ -85,6 +95,7 @@ public class ReviewResource extends AbstractResource {
 	@DELETE
 	@Path("{reviewID}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("{Moderator, RegisteredUser}")
 	public Response deleteReview(@PathParam("reviewID") int reviewID) {
 		boolean wasDeleted = ReviewDAO.getInstance().deleteReview(reviewID);
 		return buildResponseForDeleteEntity(wasDeleted);

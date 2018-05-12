@@ -13,7 +13,7 @@ CREATE TABLE users(
 	username VARCHAR(50),
 	name VARCHAR(50) NOT NULL,
 	password VARCHAR(50) NOT NULL,
-	isPromoter BOOLEAN NOT NULL DEFAULT FALSE,
+	isModerator BOOLEAN NOT NULL DEFAULT FALSE,
 	CONSTRAINT user_pk PRIMARY KEY(username)
 );
 	

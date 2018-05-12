@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.bcdi.greasypopcorn.core.Movie;
 import xyz.bcdi.greasypopcorn.core.Review;
 import xyz.bcdi.greasypopcorn.core.Review.ReviewBuilder;
 

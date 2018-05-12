@@ -1,18 +1,14 @@
 package xyz.bcdi.greasypopcorn.webservices;
 
-import java.net.*;
 import java.util.*;
 
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.*;
 
-import xyz.bcdi.greasypopcorn.core.Movie;
 import xyz.bcdi.greasypopcorn.core.Review;
 import xyz.bcdi.greasypopcorn.core.Review.ReviewBuilder;
 import xyz.bcdi.greasypopcorn.dbaccess.AbstractDatabaseAccessObject.SqlOperationEffect;
-import xyz.bcdi.greasypopcorn.dbaccess.MovieDAO;
 import xyz.bcdi.greasypopcorn.dbaccess.ReviewDAO;
 
 @Path("reviews")

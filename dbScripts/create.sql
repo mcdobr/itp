@@ -41,7 +41,7 @@ CREATE TABLE roles(
 	roleID INT AUTO_INCREMENT,
 	movieID INT NOT NULL,
 	personID INT,
-	name VARCHAR(50) NOT NULL,
+	roleName VARCHAR(50) NOT NULL,
 	CONSTRAINT role_movieID_fk FOREIGN KEY (movieID) REFERENCES movies(movieID),
 	CONSTRAINT role_personID_fk FOREIGN KEY (personID) REFERENCES persons(personID),
 	CONSTRAINT role_uk UNIQUE KEY(movieID, personID),

@@ -80,6 +80,16 @@
 INSERT INTO users VALUES('mircea', 'Mircea Dobreanu', 'abc', true);
 INSERT INTO users VALUES('paul', 'Paul Brinza', 'def', false);
 
+
 INSERT INTO persons VALUES(default, 'brad pitt');
 INSERT INTO persons VALUES(default, 'angelina jolie');
 
+
+INSERT INTO reviews VALUES(default, 'mircea', 7, 9, 'un film naspa', 'am plecat de la cinema imediat ce am vazut intro-ul', default);
+INSERT INTO reviews VALUES(default, 'paul', 3, 2, 'extraordinar regizor', 'pacat ca inca face filme', default);
+INSERT INTO reviews VALUES(default, 'mircea', 4, 6, 'mai degraba crosetam', 'am plecat', default);
+INSERT INTO reviews VALUES(default, 'paul', 9, 10, 'tarantino e doar ok', 'pulp fiction a fost ok', default);
+
+
+INSERT INTO roles VALUES(default, 1, 1, 'Mr. Smith');
+INSERT INTO roles VALUES(default, 1, 2, 'Mrs. Smith');

@@ -1,6 +1,5 @@
 package xyz.bcdi.greasypopcorn.webservices;
 
-import java.net.*;
 import java.util.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -36,9 +35,6 @@ public class MovieResource extends AbstractResource {
 		return MovieDAO.getInstance().getMoviesByName(name);
 	}
 
-	/**
-	 * @return 405 METHOD NOT ALLOWED
-	 */
 	@PUT
 	public Response replaceOrCreateMovies() {
 		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "POST").build();
@@ -62,9 +58,6 @@ public class MovieResource extends AbstractResource {
 			return Response.status(Status.BAD_REQUEST).build();
 	}
 
-	/**
-	 * @return 405 METHOD NOT ALLOWED
-	 */
 	@PATCH
 	public Response patchMovies() {
 		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "POST").build();
@@ -84,18 +77,13 @@ public class MovieResource extends AbstractResource {
 	public Response createMovie(Movie m, @Context UriInfo uriInfo) {
 		Movie result = MovieDAO.getInstance().createMovie(m);
 		String id = (result != null) ? result.getMovieID().toString() : null; 
-		return buildResponseForCreateEntity(result, result.getMovieID().toString(), uriInfo);
+		return buildResponseForCreateEntity(result, id, uriInfo);
 	}
 
-	/**
-	 * @param movieID
-	 * @return 405 METHOD NOT ALLOWED
-	 */
 	@POST
 	@Path("{movieID}")
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response createMovie(@PathParam("movieID") int movieID) {
-		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "PUT", "DELETE", "PATCH").build();
+		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "PUT", "DELETE").build();
 	}
 
 	@DELETE

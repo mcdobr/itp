@@ -1,8 +1,6 @@
 function register(){
-	var nameEl =  $('#name');
 	var usernameEl = $('#username');
 	var passwordEl = $('#password');
-	var passwordConfEl = $('#passwordConf');
 	var inputTest = true;
 		
 	$('.response').html(''); //clearing alert div
@@ -16,10 +14,6 @@ function register(){
 			);
 		inputTest = false;
 	}
-		
-	if(nameEl.val().length < 7){
-		inputErrorHandler('Full name',7);
-	}
 	
 	if(usernameEl.val().length < 4){
 		inputErrorHandler('Username',4);
@@ -29,19 +23,8 @@ function register(){
 		inputErrorHandler('Password',6);
 	}
 	
-	if(passwordEl.val() !== passwordConfEl.val()){
-		$('.response').append(
-				'<div class="alert alert-danger">'+
-					'<strong>Passwords</strong> don\'t match'+
-				'</div>'
-			);
-		inputTest = false;
-	}
-	
-	
 	if(inputTest){
 		var formData = {
-				'name': nameEl.val(),
 				'username': usernameEl.val(),
 				'password': passwordEl.val()
 			};
@@ -49,19 +32,19 @@ function register(){
 			formData = JSON.stringify(formData);
 			$.ajax({
 				method: 'POST',
-				url: '/GreasyPopcornWebServer/SignUpServlet',
+				url: '/GreasyPopcornWebServer/LoginServlet',
 				data: formData,
 				contentType: 'application/json',
 				dataType: 'json'
 			})
 				.done(function(data){
-					$('.response').css('display', 'block');
-					$('.response').append(
-							'<div class="alert alert-danger">'+
-								'<strong>Success!</strong> Redirecting to the login page'+
-							'</div>'
-						);
-					window.location = "/login.jsp";
+//					$('.response').css('display', 'block');
+//					$('.response').append(
+//							'<div class="alert alert-danger">'+
+//								'<strong>Success!</strong> Redirecting to the home page'+
+//							'</div>'
+//						);
+					window.location = "/index.jsp";
 
 				})
 				.fail(function(data){

@@ -40,10 +40,10 @@ public class MovieServlet extends HttpServlet {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		// Create web target and specific path on web target
-		WebTarget moviesTarget = client.target(API_URL).path("movies");
+		WebTarget userTarget = client.target(API_URL).path("users");
 						
 		// Make the request
-		Invocation.Builder invocationBuilder = moviesTarget.request(MediaType.APPLICATION_JSON);
+		Invocation.Builder invocationBuilder = userTarget.request(MediaType.APPLICATION_JSON);
 		
 		String jsonResponse = invocationBuilder.get().readEntity(String.class);
 		response.setContentType("application/json;charset=UTF-8");

@@ -14,19 +14,17 @@
 	<link rel="stylesheet" href="signup.css">
 </head>
 <body>
-	<h1>Greasy Popcorn Register</h1>
+	<h1>Greasy Popcorn Login</h1>
 	<div>
 		<div class="form_container">
 			<form >
-				<input type="text" id="name" placeholder="Full Name">
 				<input type="text" id="username" placeholder="Username">
 				<input type="password" id="password" placeholder="Password">
-				<input type="password" id="passwordConf" placeholder="Confirm password">
 			</form>
-			<button class="btn btn-primary" onclick="register()">Register</button>
+			<button class="btn btn-primary" onclick="login()">Login</button>
 			<div class='response' style='display: none'></div>
 		</div>	
 	</div>
-<script src = "signup.js"> </script>
+<script src = "login.js"> </script>
 </body>
 </html>

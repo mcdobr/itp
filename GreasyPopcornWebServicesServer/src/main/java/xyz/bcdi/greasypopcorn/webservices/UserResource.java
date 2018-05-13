@@ -78,9 +78,17 @@ public class UserResource extends AbstractResource {
 	
 	@POST
 	@Path("{username}")
-	@RolesAllowed("Moderator")
-	public Response createUser(@PathParam("username") String username) {
-		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "PUT", "DELETE").build();
+	public Response login(@PathParam("username") String username, @HeaderParam("Authorization") String authHeader) {
+		User user = UserDAO.getInstance().getUser(username);
+		if (user == null)
+			return Response.status(Status.UNAUTHORIZED).build();
+		
+		String[] userPassPair = SecurityUtils.getUserPassPair(authHeader);
+		if (SecurityUtils.isAuthenticationValid(userPassPair) && username.equals(userPassPair[0])) {
+			return Response.status(Status.OK).build();
+		} else {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
 	}
 	
 	@DELETE

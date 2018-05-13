@@ -52,6 +52,51 @@ public class UserDAO extends AbstractDatabaseAccessObject {
 		return user;
 	}
 	
+	public SqlOperationEffect replaceOrCreateUser(User u) {
+		SqlOperationEffect opEffect = SqlOperationEffect.FAILED;
+		
+		User userToBeReplaced = getUser(u.getUsername());
+		try {
+			if (userToBeReplaced == null ) {
+				statement = conn.prepareStatement(sql.getProperty("postUser"));
+				statement.setString(1, u.getUsername());
+				statement.setString(2, u.getName());
+				statement.setString(3, u.getPassword());
+				statement.setBoolean(4, u.getIsModerator());
+				statement.executeUpdate();
+				opEffect = SqlOperationEffect.CREATED;
+			} else {
+				statement = conn.prepareStatement(sql.getProperty("replaceUser"));
+				statement.setString(1, u.getName());
+				statement.setString(2, u.getPassword());
+				statement.setBoolean(3, u.getIsModerator());
+				statement.setString(4, u.getUsername());
+				statement.executeUpdate();
+				opEffect = SqlOperationEffect.REPLACED;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return opEffect;
+	}
+
+	public User createUser(User u) {
+		User result = null;
+		try {
+			statement = conn.prepareStatement(sql.getProperty("postUser"));
+			statement.setString(1, u.getUsername());
+			statement.setString(2, u.getName());
+			statement.setString(3, u.getPassword());
+			statement.setBoolean(4, u.getIsModerator());
+			statement.executeUpdate();
+			
+			result = getUser(u.getUsername());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	public boolean deleteUser(String username) {
 		return deleteEntity("deleteUser", username);
 	}

@@ -15,6 +15,8 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+
 import xyz.bcdi.greasypopcorn.core.Movie;
 
 /**
@@ -24,18 +26,17 @@ public class MovieServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final String API_URL = "http://localhost:1212/GreasyPopcornWebServicesServer/webapi";
 	
-	private Client client;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public MovieServlet() {
+	private final Client client;
+    private final HttpAuthenticationFeature authFeature;
+	
+	public MovieServlet() {
         super();
         client = ClientBuilder.newClient();
+        authFeature = HttpAuthenticationFeature.basic("mircea", "abc");
+        client.register(authFeature);
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
@@ -56,14 +57,19 @@ public class MovieServlet extends HttpServlet {
 			response.getWriter().println(m.getMovieID() + " " + m.getName());
 		}*/
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		WebTarget moviesTarget = client.target(API_URL).path("movies");
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 	}
 
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		WebTarget moviesTarget = client.target(API_URL).path("movies");
+		
+	}
+	
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		super.doDelete(req, resp);
+	}
 }

@@ -13,7 +13,7 @@ CREATE TABLE users(
 	username VARCHAR(50),
 	name VARCHAR(50) NOT NULL,
 	password VARCHAR(50) NOT NULL,
-	isPromoter BOOLEAN NOT NULL DEFAULT FALSE,
+	isModerator BOOLEAN NOT NULL DEFAULT FALSE,
 	CONSTRAINT user_pk PRIMARY KEY(username)
 );
 	
@@ -41,7 +41,7 @@ CREATE TABLE roles(
 	roleID INT AUTO_INCREMENT,
 	movieID INT NOT NULL,
 	personID INT,
-	name VARCHAR(50) NOT NULL,
+	roleName VARCHAR(50) NOT NULL,
 	CONSTRAINT role_movieID_fk FOREIGN KEY (movieID) REFERENCES movies(movieID),
 	CONSTRAINT role_personID_fk FOREIGN KEY (personID) REFERENCES persons(personID),
 	CONSTRAINT role_uk UNIQUE KEY(movieID, personID),

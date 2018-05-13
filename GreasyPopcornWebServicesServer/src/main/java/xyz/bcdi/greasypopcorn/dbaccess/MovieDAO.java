@@ -1,6 +1,7 @@
 package xyz.bcdi.greasypopcorn.dbaccess;
 
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
 import xyz.bcdi.greasypopcorn.core.Movie;
@@ -11,7 +12,7 @@ import xyz.bcdi.greasypopcorn.core.Movie.MovieBuilder;
  * @author mircea
  *
  */
-public class MovieDAO extends DatabaseAccessObject {
+public class MovieDAO extends AbstractDatabaseAccessObject {
 
 	private static final MovieDAO instance = new MovieDAO();
 
@@ -146,22 +147,9 @@ public class MovieDAO extends DatabaseAccessObject {
 		return result;
 	}
 
-	/**
-	 * 
-	 * @return 200 OK if was deleted or 204 NO CONTENT if there was no such entry
-	 */
+
 	public boolean deleteMovie(int movieID) {
-
-		int rowsAffected = 0;
-		try {
-			statement = conn.prepareStatement(sql.getProperty("deleteMovie"));
-			statement.setInt(1, movieID);
-			rowsAffected = statement.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return (rowsAffected == 1);
+		return deleteEntity("deleteMovie", movieID);
 	}
 
 	private static MovieBuilder copyOf(ResultSet rs) throws SQLException {
@@ -178,7 +166,9 @@ public class MovieDAO extends DatabaseAccessObject {
 				mb.withName(rs.getString("name"));
 				break;
 			case "releasedate":
-				mb.withReleaseDate(rs.getDate("releaseDate").toLocalDate());
+				Date date = rs.getDate("releaseDate");
+				if (date != null)
+					mb.withReleaseDate(date.toLocalDate());
 				break;
 			case "genre":
 				mb.withGenre(rs.getString("genre"));

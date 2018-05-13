@@ -13,6 +13,14 @@ public class Person {
 		this.name = name;
 	}
 	
+	public Integer getPersonID() {
+		return personID;
+	}
+
+	public String getName() {
+		return name;
+	}
+
 	public static class PersonBuilder {
 		private Integer personID;
 		private String name;
@@ -26,6 +34,16 @@ public class Person {
 		
 		public Person build() {
 			return new Person(personID, name);
+		}
+		
+		public PersonBuilder withPersonID(Integer personID) {
+			this.personID = personID;
+			return this;
+		}
+		
+		public PersonBuilder withName(String name) {
+			this.name = name;
+			return this;
 		}
 		
 		public static PersonBuilder copyOf(Person person) {

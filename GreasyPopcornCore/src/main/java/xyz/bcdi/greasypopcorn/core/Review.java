@@ -12,7 +12,7 @@ public class Review {
 	private final LocalDateTime reviewTime;
 	
 	@JsonCreator
-	public Review(@JsonProperty("reviewID") Integer reviewID,
+	public Review(@JsonProperty("reviewID") int reviewID,
 			@JsonProperty("username") String username,
 			@JsonProperty("movieID") Integer movieID,
 			@JsonProperty("rating") Integer rating,

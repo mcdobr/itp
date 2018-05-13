@@ -6,17 +6,17 @@ public class User {
 	private final String username;
 	private final String name;
 	private final String password;
-	private final Boolean isPromoter;
+	private final Boolean isModerator;
 	
 	public User(@JsonProperty("username") String username,
 			@JsonProperty("name") String name,
 			@JsonProperty("password") String password,
-			@JsonProperty("isPromoter") Boolean isPromoter) {
+			@JsonProperty("isModerator") Boolean isModerator) {
 		super();
 		this.username = username;
 		this.name = name;
 		this.password = password;
-		this.isPromoter = isPromoter;
+		this.isModerator = isModerator;
 	}
 	
 	public String getUsername() {
@@ -31,8 +31,8 @@ public class User {
 		return password;
 	}
 
-	public Boolean getIsPromoter() {
-		return isPromoter;
+	public Boolean getIsModerator() {
+		return isModerator;
 	}
 
 
@@ -40,7 +40,7 @@ public class User {
 		private String username;
 		private String name;
 		private String password;
-		private Boolean isPromoter;
+		private Boolean isModerator;
 		
 		public UserBuilder() {}
 		
@@ -48,11 +48,11 @@ public class User {
 			this.username = user.username;
 			this.name = user.name;
 			this.password = user.password;
-			this.isPromoter = user.isPromoter;
+			this.isModerator = user.isModerator;
 		}
 		
 		public User build() {
-			return new User(username, name, password, isPromoter);
+			return new User(username, name, password, isModerator);
 		}
 		
 		public UserBuilder withUsername(String username) {
@@ -70,8 +70,8 @@ public class User {
 			return this;
 		}
 		
-		public UserBuilder withIsPromoter(Boolean isPromoter) {
-			this.isPromoter = isPromoter;
+		public UserBuilder withIsModerator(Boolean isModerator) {
+			this.isModerator = isModerator;
 			return this;
 		}
 		

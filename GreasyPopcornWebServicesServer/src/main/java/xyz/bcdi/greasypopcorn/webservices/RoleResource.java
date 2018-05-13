@@ -1,6 +1,9 @@
 package xyz.bcdi.greasypopcorn.webservices;
 
 import java.util.*;
+
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -17,6 +20,7 @@ import xyz.bcdi.greasypopcorn.dbaccess.AbstractDatabaseAccessObject.SqlOperation
 public class RoleResource extends AbstractResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public List<Role> getRoles() {
 		return RoleDAO.getInstance().getRoles();
 	}
@@ -24,6 +28,7 @@ public class RoleResource extends AbstractResource {
 	@GET
 	@Path("{roleID}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
 	public Role getRoleByID(@PathParam("roleID") int roleID) {
 		return RoleDAO.getInstance().getRoleByID(roleID);
 	}
@@ -36,6 +41,7 @@ public class RoleResource extends AbstractResource {
 	@PUT
 	@Path("{roleID}")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed("Moderator")
 	public Response replaceOrCreateRole(Role r, @PathParam("roleID") int roleID) {
 		if (r.getRoleID() == 0)
 			r = RoleBuilder.copyOf(r).withRoleID(roleID).build();
@@ -53,6 +59,7 @@ public class RoleResource extends AbstractResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("Moderator")
 	public Response createRole(Role r, @Context UriInfo uriInfo) {
 		Role result = RoleDAO.getInstance().createRole(r);
 		String id = (result != null) ? result.getRoleID().toString() : null; 
@@ -61,11 +68,13 @@ public class RoleResource extends AbstractResource {
 
 	@POST
 	@Path("{roleID}")
+	@RolesAllowed("Moderator")
 	public Response createRole(@PathParam("roleID") int roleID) {
 		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "PUT", "DELETE").build();
 	}
 	
 	@DELETE
+	@RolesAllowed("Moderator")
 	public Response deleteRoles() {
 		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "POST").build();
 	}
@@ -73,6 +82,7 @@ public class RoleResource extends AbstractResource {
 	@DELETE
 	@Path("{roleID}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("Moderator")
 	public Response deleteRole(@PathParam("roleID") int roleID) {
 		boolean wasDeleted = RoleDAO.getInstance().deleteRole(roleID);
 		return buildResponseForDeleteEntity(wasDeleted);

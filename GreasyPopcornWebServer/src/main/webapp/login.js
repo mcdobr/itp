@@ -1,4 +1,4 @@
-function register(){
+function login(){
 	var usernameEl = $('#username');
 	var passwordEl = $('#password');
 	var inputTest = true;
@@ -28,27 +28,32 @@ function register(){
 				'username': usernameEl.val(),
 				'password': passwordEl.val()
 			};
-			
 			formData = JSON.stringify(formData);
+			var bencode = btoa(usernameEl.val()+":"+passwordEl.val());
+			//$.post('/GreasyPopcornWebServer/LoginServlet',formData);
 			$.ajax({
 				method: 'POST',
-				url: '/GreasyPopcornWebServer/LoginServlet',
+				url: '/GreasyPopcornWebServicesServer/webapi/users/'+usernameEl.val(),
 				data: formData,
 				contentType: 'application/json',
-				dataType: 'json'
+				dataType: false,
+				headers:{
+					Authorization: "Basic "+bencode
+				}
 			})
 				.done(function(data){
+					console.log('Succes');
 //					$('.response').css('display', 'block');
 //					$('.response').append(
 //							'<div class="alert alert-danger">'+
 //								'<strong>Success!</strong> Redirecting to the home page'+
 //							'</div>'
 //						);
-					window.location = "/index.jsp";
+					//window.location = "/index.jsp";
 
 				})
 				.fail(function(data){
-					console.log(data);
+					console.log("Fail");
 				});
 	}
 }

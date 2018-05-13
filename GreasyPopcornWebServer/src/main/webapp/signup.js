@@ -57,12 +57,13 @@ function register(){
 				.done(function(data){
 					$('.response').css('display', 'block');
 					$('.response').append(
-							'<div class="alert alert-danger">'+
+							'<div class="alert alert-success">'+
 								'<strong>Success!</strong> Redirecting to the login page'+
 							'</div>'
 						);
-					window.location = "/login.jsp";
-
+					setTimeout(function(){
+						window.location = "/GreasyPopcornWebServer/login.jsp";
+					},2000);
 				})
 				.fail(function(data){
 					console.log(data);

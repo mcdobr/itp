@@ -18,10 +18,10 @@
 	<div>
 		<div class="form_container">
 			<form >
-				<input type="text" id="name" placeholder="Full Name">
-				<input type="text" id="username" placeholder="Username">
-				<input type="password" id="password" placeholder="Password">
-				<input type="password" id="passwordConf" placeholder="Confirm password">
+				<input type="text" name="name" id="name" placeholder="Full Name">
+				<input type="text" name="username" id="username" placeholder="Username">
+				<input type="password" name="password" id="password" placeholder="Password">
+				<input type="password" name="passwodConf" id="passwordConf" placeholder="Confirm password">
 			</form>
 			<button class="btn btn-primary" onclick="register()">Register</button>
 			<div class='response' style='display: none'></div>

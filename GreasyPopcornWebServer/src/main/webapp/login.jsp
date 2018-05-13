@@ -17,9 +17,9 @@
 	<h1>Greasy Popcorn Login</h1>
 	<div>
 		<div class="form_container">
-			<form >
-				<input type="text" id="username" placeholder="Username">
-				<input type="password" id="password" placeholder="Password">
+			<form action="LoginServlet" method = "post" >
+				<input type="text" name="username" id="username" placeholder="Username">
+				<input type="password" name="password" id="password" placeholder="Password">
 			</form>
 			<button class="btn btn-primary" onclick="login()">Login</button>
 			<div class='response' style='display: none'></div>

@@ -28,7 +28,7 @@ import xyz.bcdi.greasypopcorn.core.Movie;
 /**
  * Servlet implementation class MovieServlet
  */
-public class LoginServlet extends HttpServlet {
+public class SignUpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final String API_URL = "http://localhost:1212/GreasyPopcornWebServicesServer/webapi";
 	
@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public SignUpServlet() {
         super();
         client = ClientBuilder.newClient();
     }

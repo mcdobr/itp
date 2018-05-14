@@ -15,7 +15,9 @@
 		<link rel="stylesheet" href="index.css">
 	</head>
 	<body ng-app="GreasyPopcorn">  
-	<header>
+	<header ng-controller="Logout">
+			<button ng-show="tokenExists()" class="btn btn-primary accountActionsBtn" ng-click=logout()>Logout</button>
+			<button ng-show="!tokenExists()" class="btn btn-primary accountActionsBtn" ng-click=login()>Login</button>
 			<span><%
 			         Date dNow = new Date( );
 			         SimpleDateFormat ft = 
@@ -43,7 +45,7 @@
 	                <tbody>
 	                    <tr ng-repeat="movie in movies">
 	                        <td>{{ movie.movieID }}</td>             
-	                        <td>{{ movie.name }}</td>
+	                        <td><a href="/GreasyPopcornWebServer/movie.jsp?movieID={{ movie.movieID }}">{{ movie.name }}</a></td>
 	                    </tr>
 	                </tbody>
 	            </table>

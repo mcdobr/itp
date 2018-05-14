@@ -104,5 +104,4 @@ public class SignUpServlet extends HttpServlet {
 		response.setContentType("application/json;charset=UTF-8");
 		response.getWriter().append(responseString);
 	}
-
 }

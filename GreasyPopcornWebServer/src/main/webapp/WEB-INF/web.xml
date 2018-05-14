@@ -22,6 +22,12 @@
   	<description></description>
   	<servlet-class>xyz.bcdi.greasypopcorn.SignUpServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>MoviesServlet</servlet-name>
+  	<display-name>MoviesServlet</display-name>
+  	<description></description>
+  	<servlet-class>xyz.bcdi.greasypopcorn.MoviesServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>MovieServlet</servlet-name>
   	<url-pattern>/MovieServlet</url-pattern>
@@ -33,6 +39,10 @@
   <servlet-mapping>
   	<servlet-name>SignUpServlet</servlet-name>
   	<url-pattern>/SignUpServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>MoviesServlet</servlet-name>
+  	<url-pattern>/MoviesServlet</url-pattern>
   </servlet-mapping>
   
   

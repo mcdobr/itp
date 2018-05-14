@@ -30,6 +30,7 @@ function login(){
 			};
 			formData = JSON.stringify(formData);
 			var bencode = btoa(usernameEl.val()+":"+passwordEl.val());
+			localStorage.setItem('auth_token',bencode);
 			//$.post('/GreasyPopcornWebServer/LoginServlet',formData);
 			$.ajax({
 				method: 'POST',
@@ -38,22 +39,22 @@ function login(){
 				contentType: 'application/json',
 				dataType: false,
 				headers:{
-					Authorization: "Basic "+bencode
+					Authorization: "Basic "+localStorage.getItem('auth_token')
 				}
 			})
 				.done(function(data){
-					console.log('Succes');
-//					$('.response').css('display', 'block');
-//					$('.response').append(
-//							'<div class="alert alert-danger">'+
-//								'<strong>Success!</strong> Redirecting to the home page'+
-//							'</div>'
-//						);
-					//window.location = "/index.jsp";
+					window.location = "/GreasyPopcornWebServer/index.jsp";
 
 				})
 				.fail(function(data){
-					console.log("Fail");
+					if(data.status === 401){
+						$('.response').css('display', 'block');
+						$('.response').append(
+								'<div class="alert alert-danger">'+
+									'<strong>Username or Password</strong> are incorrect!'+
+								'</div>'
+							);
+					}
 				});
 	}
 }

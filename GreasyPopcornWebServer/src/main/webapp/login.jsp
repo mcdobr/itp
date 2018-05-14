@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="signup.css">
+	<link rel="stylesheet" href="login.css">
 </head>
 <body>
 	<h1>Greasy Popcorn Login</h1>
@@ -22,6 +22,7 @@
 				<input type="password" name="password" id="password" placeholder="Password">
 			</form>
 			<button class="btn btn-primary" onclick="login()">Login</button>
+			<a href="/GreasyPopcornWebServer/signup.jsp">Register an account here</a>
 			<div class='response' style='display: none'></div>
 		</div>	
 	</div>

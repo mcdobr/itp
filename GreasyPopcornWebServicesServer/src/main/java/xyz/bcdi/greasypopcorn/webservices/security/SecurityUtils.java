@@ -73,6 +73,28 @@ public final class SecurityUtils {
 		return false;
 	}
 	
+	public static boolean isPersonalResource(String username, Object obj) {
+		if (obj instanceof User) {
+			User res = (User)obj;
+			return (username.equals(res.getUsername()));
+		} else if (obj instanceof Review) {
+			Review res = (Review)obj;
+			return (username.equals(res.getUsername()));
+		} else
+			return false;
+	}
+	
+	public static boolean isModeratorsResource(Object obj) {
+		if (obj instanceof User) {
+			User user = (User)obj;
+			return user.getIsModerator();
+		} else if (obj instanceof Review) {
+			Review review = (Review)obj;
+			return UserDAO.getInstance().getUser(review.getUsername()).getIsModerator();
+		} else
+			return false;
+	}
+	
 	/**
 	 * @param username Username supplied by basic auth header.
 	 * @param password Password supplied by basic auth header.
@@ -87,20 +109,16 @@ public final class SecurityUtils {
 		if (!isAuthenticationValid(username, password))
 			return false;
 		
+		// Authentication is valid
 		// A user with an account is making the request
 		User user = UserDAO.getInstance().getUser(username);
 		if (user.getIsModerator()) {
-			return true;
+			if (isModeratorsResource(obj))
+				return isPersonalResource(username, obj);
+			else
+				return true;
 		} else {
-			// A registered user is making the request
-			if (obj instanceof User) {
-				User res = (User)obj;
-				return (username.equals(res.getUsername()));
-			} else if (obj instanceof Review) {
-				Review res = (Review)obj;
-				return (username.equals(res.getUsername()));
-			}
-			return false;
+			return isPersonalResource(username, obj);
 		}
 	}
 }

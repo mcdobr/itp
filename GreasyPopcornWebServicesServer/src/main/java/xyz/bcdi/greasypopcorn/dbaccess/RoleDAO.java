@@ -49,6 +49,42 @@ public class RoleDAO extends AbstractDatabaseAccessObject {
 		return role;
 	}
 	
+	public List<Role> getRolesByMovie(int movieID) {
+		List<Role> roles = new ArrayList<>();
+
+		try {
+			statement = conn.prepareStatement(sql.getProperty("getRolesByMovie"));
+			statement.setInt(1, movieID);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				Role role = copyOf(rs).build();
+				roles.add(role);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return roles;
+	}
+	
+	public List<Role> getRolesByPerson(int personID) {
+		List<Role> roles = new ArrayList<>();
+
+		try {
+			statement = conn.prepareStatement(sql.getProperty("getRolesByPerson"));
+			statement.setInt(1, personID);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				Role role = copyOf(rs).build();
+				roles.add(role);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return roles;
+	}
+	
 
 	public SqlOperationEffect replaceOrCreateRole(Role r) {
 		SqlOperationEffect opEffect = SqlOperationEffect.FAILED;

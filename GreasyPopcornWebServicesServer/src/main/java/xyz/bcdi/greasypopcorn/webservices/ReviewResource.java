@@ -38,7 +38,7 @@ public class ReviewResource extends AbstractResource {
 	public List<Review> getReviewByField(@QueryParam("movieID") Integer movieID,
 			@QueryParam("username") String username) {
 		if (movieID == null && username == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No query parameters!");
 
 		if (username != null)
 			return ReviewDAO.getInstance().getReviewsByUser(username);

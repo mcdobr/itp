@@ -96,24 +96,21 @@ public class MovieDAO extends AbstractDatabaseAccessObject {
 			if (movieToBeReplaced == null) {
 				statement = conn.prepareStatement(sql.getProperty("createMovie"));
 				statement.setInt(1, m.getMovieID());
-				statement.setString(2, m.getName());
-				statement.setString(3, m.getGenre());
+				statement.setString(2, m.getDescription());
+				statement.setString(3, m.getName());
+				statement.setString(4, m.getGenre());
 				statement.executeUpdate();
 
 				opEffect = SqlOperationEffect.CREATED;
 			} else {
 				statement = conn.prepareStatement(sql.getProperty("replaceMovie"));
 				statement.setString(1, m.getName());
-				statement.setString(2, m.getGenre());
-				statement.setInt(3, m.getMovieID());
+				statement.setString(2, m.getDescription());
+				statement.setString(3, m.getGenre());
+				statement.setInt(4, m.getMovieID());
 				statement.executeUpdate();
 
 				opEffect = SqlOperationEffect.REPLACED;
-				/*
-				 * String sql = String.format(", m.getName(), (m.getReleaseDate() == null) ?
-				 * "default" : m.getReleaseDate(), (m.getGenre() == null) ? "default" :
-				 * m.getGenre(), m.getMovieID());
-				 */
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -132,6 +129,7 @@ public class MovieDAO extends AbstractDatabaseAccessObject {
 		try {
 			statement = conn.prepareStatement(sql.getProperty("postMovie"), Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, m.getName());
+			statement.setString(2, m.getDescription());
 			statement.executeUpdate();
 
 			// Get last inserted id
@@ -164,6 +162,9 @@ public class MovieDAO extends AbstractDatabaseAccessObject {
 				break;
 			case "name":
 				mb.withName(rs.getString("name"));
+				break;
+			case "description":
+				mb.withDescription(rs.getString("description"));
 				break;
 			case "releasedate":
 				Date date = rs.getDate("releaseDate");

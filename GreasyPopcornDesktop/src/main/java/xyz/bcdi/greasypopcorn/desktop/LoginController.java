@@ -68,9 +68,6 @@ public class LoginController {
     		
     		MainController.loginUser(username);
     		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
-    		MainController mainController = loader.getController();
-    		
     		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         	stage.setScene(new Scene((Parent)FXMLLoader.load(getClass().getResource("main.fxml"))));
     		

@@ -11,7 +11,7 @@ public class User {
 	public User(@JsonProperty("username") String username,
 			@JsonProperty("name") String name,
 			@JsonProperty("password") String password,
-			@JsonProperty("isModerator") Boolean isModerator) {
+			@JsonProperty("isModerator") boolean isModerator) {
 		super();
 		this.username = username;
 		this.name = name;

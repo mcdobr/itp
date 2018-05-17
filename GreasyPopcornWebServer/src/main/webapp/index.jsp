@@ -12,10 +12,12 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.7/angular.min.js"></script>
-		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="index.css">
 	</head>
 	<body ng-app="GreasyPopcorn">  
-	<header>
+	<header ng-controller="Logout">
+			<button ng-show="tokenExists()" class="btn btn-primary accountActionsBtn" ng-click=logout()>Logout</button>
+			<button ng-show="!tokenExists()" class="btn btn-primary accountActionsBtn" ng-click=login()>Login</button>
 			<span><%
 			         Date dNow = new Date( );
 			         SimpleDateFormat ft = 
@@ -43,7 +45,7 @@
 	                <tbody>
 	                    <tr ng-repeat="movie in movies">
 	                        <td>{{ movie.movieID }}</td>             
-	                        <td>{{ movie.name }}</td>
+	                        <td><a href="/GreasyPopcornWebServer/movie.jsp?movieID={{ movie.movieID }}">{{ movie.name }}</a></td>
 	                    </tr>
 	                </tbody>
 	            </table>

@@ -22,14 +22,14 @@ import xyz.bcdi.greasypopcorn.core.Movie;
 /**
  * Servlet implementation class MovieServlet
  */
-public class MovieServlet extends HttpServlet {
+public class MoviesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final String API_URL = "http://localhost:1212/GreasyPopcornWebServicesServer/webapi";
 	
 	private final Client client;
     private final HttpAuthenticationFeature authFeature;
 	
-	public MovieServlet() {
+	public MoviesServlet() {
         super();
         client = ClientBuilder.newClient();
         authFeature = HttpAuthenticationFeature.basic("mircea", "abc");
@@ -39,9 +39,10 @@ public class MovieServlet extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		
+    	String pathInfo = request.getPathInfo();
+    	System.out.println(pathInfo);
 		// Create web target and specific path on web target
-		WebTarget moviesTarget = client.target(API_URL).path("movies");
+		WebTarget moviesTarget = client.target(API_URL).path("movies/");
 						
 		// Make the request
 		Invocation.Builder invocationBuilder = moviesTarget.request(MediaType.APPLICATION_JSON);

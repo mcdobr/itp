@@ -9,8 +9,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 
+import xyz.bcdi.greasypopcorn.core.Review;
 import xyz.bcdi.greasypopcorn.core.User;
 import xyz.bcdi.greasypopcorn.core.User.UserBuilder;
+import xyz.bcdi.greasypopcorn.dbaccess.ReviewDAO;
 import xyz.bcdi.greasypopcorn.dbaccess.UserDAO;
 import xyz.bcdi.greasypopcorn.dbaccess.AbstractDatabaseAccessObject.SqlOperationEffect;
 import xyz.bcdi.greasypopcorn.webservices.security.SecurityUtils;
@@ -45,11 +47,15 @@ public class UserResource extends AbstractResource {
 	@Path("{username}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@RolesAllowed({"Moderator", "RegisteredUser"})
-	public Response replaceOrCreateUser(User u, @PathParam("username") String username, @HeaderParam("Authorization") String authHeader) {
+	public Response replaceOrCreateUser(User u, @PathParam("username") String username, @HeaderParam("Authorization") String authHeader) {		
+		/* Modify the user entry */
 		if (u.getUsername() == null || u.getUsername().isEmpty())
 			u = UserBuilder.copyOf(u).withUsername(username).build();
+		final User persistUser = UserDAO.getInstance().getUser(username);
 		
-
+		/* Check authorization and make the request */
+		/*if (persistUser != null && !SecurityUtils.isUserAuthorized(authHeader, persistUser))
+			return SecurityUtils.UNAUTHORIZED_RESPONSE.build();*/
 		if (!SecurityUtils.isUserAuthorized(authHeader, u))
 			return SecurityUtils.UNAUTHORIZED_RESPONSE.build();
 		
@@ -68,8 +74,7 @@ public class UserResource extends AbstractResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
 	public Response createUser(User u, @Context UriInfo uriInfo, @HeaderParam("Authorization") String authHeader) {
-		/*if (!SecurityUtils.isUserAuthorized(authHeader, u))
-			return SecurityUtils.UNAUTHORIZED_RESPONSE.build();*/
+		u = UserBuilder.copyOf(u).withIsModerator(false).build();
 		
 		User result = UserDAO.getInstance().createUser(u);
 		String id = (result != null) ? result.getUsername() : null;
@@ -105,6 +110,11 @@ public class UserResource extends AbstractResource {
 		User u = UserDAO.getInstance().getUser(username);
 		if (!SecurityUtils.isUserAuthorized(authHeader, u))
 			return SecurityUtils.UNAUTHORIZED_RESPONSE.build();
+		
+		List<Review> reviewsByUser = ReviewDAO.getInstance().getReviewsByUser(username);
+		for (Review review : reviewsByUser) {
+			ReviewDAO.getInstance().deleteReview(review.getReviewID());
+		}
 		
 		boolean wasDeleted = UserDAO.getInstance().deleteUser(username);
 		return buildResponseForDeleteEntity(wasDeleted);

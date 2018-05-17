@@ -33,6 +33,21 @@ public class RoleResource extends AbstractResource {
 		return RoleDAO.getInstance().getRoleByID(roleID);
 	}
 	
+	@GET
+	@Path("query")
+	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
+	public List<Role> getRolesByField(@QueryParam("movieID") Integer movieID,
+			@QueryParam("personID") Integer personID) {
+		if (movieID == null && personID == null)
+			throw new IllegalArgumentException("No query parameters!");
+		
+		if (movieID != null)
+			return RoleDAO.getInstance().getRolesByMovie(movieID);
+		else
+			return RoleDAO.getInstance().getRolesByPerson(personID);
+	}
+	
 	@PUT
 	public Response replaceOrCreateRoles() {
 		return Response.status(Status.METHOD_NOT_ALLOWED).allow("GET", "POST").build();

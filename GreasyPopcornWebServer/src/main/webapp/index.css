@@ -19,8 +19,8 @@ h1{
 	align-items: center;
 }
 
-button{
-	margin-right: 80px;
+.accountActionsBtn{
+	margin: 5px;
 }
 
 input{

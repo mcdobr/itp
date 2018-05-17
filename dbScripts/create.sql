@@ -4,6 +4,7 @@ USE GreasyPopcorn;
 CREATE TABLE movies(
 	movieID INT AUTO_INCREMENT,
 	name VARCHAR(50) NOT NULL,
+	description VARCHAR(2000),
 	releaseDate DATE,
 	genre VARCHAR(50),
 	CONSTRAINT movie_pk PRIMARY KEY(movieID)

@@ -17,8 +17,6 @@ public class DesktopApp extends Application
 	public static Scene loginScene;
 	public static Scene signupScene;
 	
-	
-	
 	public DesktopApp() throws IOException {
 		if (mainScene == null)
 			mainScene = new Scene((Parent)FXMLLoader.load(getClass().getResource("main.fxml")));

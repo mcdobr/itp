@@ -45,7 +45,7 @@ function login(){
 				.done(function(data){
 					console.log(usernameEl.val());
 					localStorage.setItem('username',usernameEl.val());
-					window.location = "/GreasyPopcornWebServer/index.jsp";
+					window.location = "/GreasyPopcornWebServer/admin/index.jsp";
 
 				})
 				.fail(function(data){

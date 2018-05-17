@@ -1,0 +1,29 @@
+.userReviews_container{
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.review_box{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 31vw;
+	border: 1px solid #eee;
+	box-shadow: 0 2px 3px #ccc;
+	padding: 10px;
+	margin: 7px;
+}
+
+p{
+	overflow-wrap: break-word;
+}
+
+#review_date{
+	font-style: italic;
+	opacity: 0.6;
+}
+
+.review_label{
+	font-size: 1.1em;
+}

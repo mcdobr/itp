@@ -55,6 +55,7 @@ function register(){
 				dataType: 'json'
 			})
 				.done(function(data){
+					console.log(data);
 					$('.response').css('display', 'block');
 					$('.response').append(
 							'<div class="alert alert-success">'+
@@ -66,7 +67,12 @@ function register(){
 					},1000);
 				})
 				.fail(function(data){
-
+					$('.response').css('display', 'block');
+					$('.response').append(
+							'<div class="alert alert-danger">'+
+								'<strong>Username</strong> is already taken'+
+							'</div>'
+						);
 				});
 	}
 }

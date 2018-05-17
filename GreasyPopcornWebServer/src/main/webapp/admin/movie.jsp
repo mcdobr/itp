@@ -12,8 +12,8 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.7/angular.min.js"></script>
-		<link rel="stylesheet" href="movie.css">
-		<link rel="stylesheet" href="review.css">
+		<link rel="stylesheet" href="../movie.css">
+		<link rel="stylesheet" href="../review.css">
 	</head>
 	<body>  
 		

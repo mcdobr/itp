@@ -17,6 +17,7 @@ function getMovieReviews(ID){
 				<p id="review_body">${reviewsArr[i].content}</p>
 				<p>Rating: ${reviewsArr[i].rating} stars</p>
 				<p id="review_date">Posted on ${reviewsArr[i].reviewTime.dayOfMonth}.${reviewsArr[i].reviewTime.monthValue}.${reviewsArr[i].reviewTime.year}</p>
+				<button class="btn btn-danger" onclick="deleteReview(${reviewsArr[i].reviewID})">Delete</button>
 			`);
 		}
 	});
@@ -78,5 +79,6 @@ function getMovie(){
 			console.log(movie);
 		});
 }
+
 
 setTimeout(function(){getMovie();},1000);

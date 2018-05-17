@@ -89,8 +89,8 @@
 
 
 
-INSERT INTO users VALUES('mircea', 'Mircea Dobreanu', 'abc', true);
-INSERT INTO users VALUES('paul', 'Paul Brinza', 'def', false);
+INSERT INTO users VALUES('mircea', 'Mircea Dobreanu', '123456', true);
+INSERT INTO users VALUES('paul', 'Paul Brinza', '123456', false);
 
 
 INSERT INTO persons VALUES(default, 'brad pitt');

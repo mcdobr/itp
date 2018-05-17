@@ -2,7 +2,7 @@ var app = angular.module('GreasyPopcorn',[]);
 
 app.controller('GPController',['$scope','$http',function($scope,$http){
 	$scope.search = function(){
-		$http.get("MovieServlet").then(function(response) {
+		$http.get("/GreasyPopcornWebServer/MovieServlet").then(function(response) {
 			console.log(response.data)
 		    var data = response.data;
 			var t = [];
@@ -19,6 +19,24 @@ app.controller('GPController',['$scope','$http',function($scope,$http){
 			$scope.movies = t;
 		  });
 	};
+	
+	$scope.delete = function(movieID){
+		if (confirm("Are you sure?")) {
+			$http({
+				method: 'DELETE',
+				url:'/GreasyPopcornWebServicesServer/webapi/movies/'+movieID,
+				headers:{
+					Authorization: "Basic "+localStorage.getItem('auth_token')
+				}
+			})
+				.then(function(resp){
+					location.reload();
+				}, function(resp){
+					alert("Unable to delete the movie");
+				});
+		};
+	}
+	
 }]);
 
 app.controller('Logout',['$scope',function($scope){

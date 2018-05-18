@@ -48,7 +48,7 @@
 	                        <td>{{ movie.movieID }}</td>             
 	                        <td><a href="/GreasyPopcornWebServer/movie.jsp?movieID={{ movie.movieID }}">{{ movie.name }}</a></td>
 	                        <td><button class="btn btn-danger" ng-click="delete( movie.movieID )">Delete</button>
-	                        	<a href="./edit.jsp?movieID={{  movie.movieID }}" type="button" class="btn btn-info">Edit</a>
+	                        	<button ng-click="redirect( movie.movieID )" type="button" class="btn btn-info">Edit</button>
 	                        </td>
 	                    </tr>
 	                </tbody>
@@ -56,5 +56,5 @@
             </main>
         </div>     
       	</body>
-        <script src = "../script.js"> </script>
+      	<script src = "./adminscript.js"> </script>
 </html>

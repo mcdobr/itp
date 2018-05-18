@@ -30,11 +30,21 @@ app.controller('GPController',['$scope','$http',function($scope,$http){
 				}
 			})
 				.then(function(resp){
-					location.reload();
+					//location.reload();
 				}, function(resp){
 					alert("Unable to delete the movie");
 				});
 		};
+	}
+	
+	$scope.redirect  = function(id){
+		if(localStorage.getItem('auth_token')){
+			$location.path('/admin/edit.jsp?movieID='+id);
+		}
+		else{
+			alert("Unauthorized!");
+		}
+			
 	}
 	
 }]);

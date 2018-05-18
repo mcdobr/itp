@@ -41,6 +41,6 @@ function submitReview(){
 			location.reload()
 		})
 		.fail(function(data){
-			alert("Unable to add review!");
+			alert("You must be registered!");
 		});
 }

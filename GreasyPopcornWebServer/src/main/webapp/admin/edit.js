@@ -16,7 +16,11 @@ function getMovie(){
 		});
 };
 
-getMovie();
+if(localStorage.getItem('auth_token')){
+	getMovie();
+}
+else
+	window.location = '/GreasyPopcornWebServer/admin/index.jsp';
 
 function updateMovie(){
 	var data = {
